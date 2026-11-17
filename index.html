@@ -29,7 +29,7 @@
   --on-dark: #F6F3E8;
   --on-dark-2: #CDBFB0;
 
-  --fs-h1: clamp(40px, 4.4vw, 64px);
+  --fs-h1: clamp(32px, min(4.4vw, 7vh), 64px);
   --fs-h2: clamp(30px, 3.2vw, 48px);
   --fs-h3: clamp(20px, 1.7vw, 24px);
   --fs-body: 16px;
@@ -58,7 +58,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 /* ---------- Type ---------- */
 h1 { font-size: var(--fs-h1); font-weight: 300; line-height: 1.04; letter-spacing: -0.03em; }
-h1 strong { font-weight: 600; }
+h1 strong { font-weight: 600; display: block; }
 h2 { font-size: var(--fs-h2); font-weight: 300; line-height: 1.1; letter-spacing: -0.025em; max-width: 22ch; }
 h3 { font-size: var(--fs-h3); font-weight: 400; line-height: 1.4; letter-spacing: -0.01em; }
 h4, .label { font: 400 var(--fs-label)/1.4 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; }
@@ -159,7 +159,7 @@ html:not(.js) .svc-sticky, .reduced .svc-sticky { position: static; height: auto
 }
 
 /* Contact */
-#contact { background: radial-gradient(ellipse 80% 70% at 85% 0%, #5A4E4A 0%, #2A2322 52%, #0F0B0C 100%); color: var(--on-dark); position: relative; }
+#contact { background: radial-gradient(ellipse 80% 70% at 85% 0%, #462639 0%, #340D1A 55%, #1d0710 100%); color: var(--on-dark); position: relative; }
 #contact p { color: var(--on-dark-2); }
 .contact-intro { margin-top: 24px; max-width: 50ch; }
 .contact-grid { margin-top: 56px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 56px 32px; }
@@ -430,25 +430,32 @@ footer a, footer li { color: var(--on-dark-2); transition: color 160ms ease; }
       setTimeout(done, (dur || 1.2) * 1000 + 250);
     } else window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
   }
+  // The page as a list of resting places. One wheel gesture moves to the next (or previous) one.
+  function buildStops() {
+    var stops = [0, M.heroSpan, M.aboutTop - M.nav + 1];
+    var cards = [].slice.call(document.querySelectorAll('.card')), stack = document.querySelector('.stack');
+    var sTop = stack.getBoundingClientRect().top + window.scrollY, gap = parseFloat(getComputedStyle(cards[1]).marginTop) || 0, acc = 0;
+    cards.forEach(function (c, i) {
+      if (i > 0) stops.push(sTop + acc + i * gap - (M.nav + 24 + i * 44));
+      acc += c.offsetHeight;
+    });
+    for (var k = 0; k < N; k++) stops.push(svcStop(k));
+    stops.push(M.contactTop - M.nav + 1);
+    M.stops = stops.sort(function (a, b) { return a - b; });
+  }
   // Where should one gesture in this direction go? null = let normal smooth scrolling handle it.
   function stepTarget(y, dir) {
-    measure();
-    var k;
-    var aboutLand = M.aboutTop - M.nav + 1;
-    if (y < aboutLand - 2) {                                    // hero
-      if (dir > 0) return y < M.heroSpan - 6 ? { y: M.heroSpan, d: 3, e: inOutQuart } : { y: aboutLand, d: 1.1, e: outQuart };
-      if (y > M.heroSpan + 6) return { y: M.heroSpan, d: 1.1, e: outQuart };
-      return y > 6 ? { y: 0, d: 2.4, e: inOutQuart } : null;
+    measure(); buildStops();
+    var S = M.stops, i, s;
+    if (y > S[S.length - 1] + 8) return null;                  // contact form and footer scroll normally
+    if (dir > 0) {
+      for (i = 0; i < S.length; i++) if (S[i] > y + 90) { s = S[i]; break; }
+      if (s === undefined) return null;
+      return s === M.heroSpan ? { y: s, d: 3, e: inOutQuart } : { y: s, d: 0.9, e: outQuart };
     }
-    if (y >= M.svcTop - 4 && y <= M.svcTop + M.svcSpan + 4) {   // services
-      if (dir > 0) {
-        for (k = 0; k < N; k++) if (svcStop(k) > y + 8) return { y: svcStop(k), d: 0.85, e: outQuart };
-        return { y: M.contactTop - M.nav + 1, d: 1.2, e: outQuart };
-      }
-      for (k = N - 1; k >= 0; k--) if (svcStop(k) < y - 8) return { y: svcStop(k), d: 0.85, e: outQuart };
-      return { y: Math.max(M.aboutTop, M.svcTop - window.innerHeight), d: 1.2, e: outQuart };
-    }
-    return null;
+    for (i = S.length - 1; i >= 0; i--) if (S[i] < y - 90) { s = S[i]; break; }
+    if (s === undefined) return null;
+    return s === 0 ? { y: 0, d: 2.4, e: inOutQuart } : { y: s, d: 0.9, e: outQuart };
   }
   function stepping_on() { return lenis && mq.matches && !reduce; }
   function onVirtual(data) {
