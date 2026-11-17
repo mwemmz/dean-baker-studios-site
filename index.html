@@ -13,9 +13,10 @@
 <link rel="stylesheet" href="vendor/lenis.css">
 <script>document.documentElement.className = 'js';</script>
 <style>
-/* Design language taken from the mood boards: deep plum and merlot fields,
-   cappuccino-foam paper, vanilla-latte neutrals, flat swatch panels with small
-   spec captions. Black and white carry the structure and the type. */
+/* Design system, kept small on purpose:
+   Type: h1 (hero) / h2 (section titles) / h3 (statements, list titles, values) / body / label. Five sizes, no others.
+   Colour: white, black and cream carry the structure; merlot and latte are the two accents from the mood boards.
+   Buttons: one hover for every control (fill with ink, text turns white). */
 :root {
   --black: #0A0708;
   --ink: #120C0E;
@@ -23,13 +24,20 @@
   --foam: #F6F3E8;       /* Cappuccino Foam */
   --latte: #B5A391;      /* Vanilla Latte */
   --merlot: #340D1A;     /* Merlot */
-  --plum: #462639;       /* Potent Purple */
   --grey: #5E5A5B;
   --line: #E4E0D6;
   --on-dark: #F6F3E8;
   --on-dark-2: #CDBFB0;
+
+  --fs-h1: clamp(40px, 4.4vw, 64px);
+  --fs-h2: clamp(30px, 3.2vw, 48px);
+  --fs-h3: clamp(20px, 1.7vw, 24px);
+  --fs-body: 16px;
+  --fs-label: 13px;
+
   --nav: 68px;
   --gutter: clamp(20px, 5vw, 72px);
+  --sec: clamp(88px, 10vw, 144px);
   --ease: cubic-bezier(0.23, 1, 0.32, 1);
   --sans: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
   --mono: 'Courier Prime', 'Courier New', monospace;
@@ -38,34 +46,44 @@
 html { scroll-behavior: smooth; scroll-padding-top: var(--nav); }
 html.lenis, html.lenis body { height: auto; }
 html.lenis { scroll-behavior: auto !important; }
-body { margin: 0; background: var(--black); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+body { margin: 0; background: var(--black); color: var(--ink); font: 400 var(--fs-body)/1.7 var(--sans); -webkit-font-smoothing: antialiased; }
 img, canvas { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
-h1, h2, h3, p, ol { margin: 0; padding: 0; }
+h1, h2, h3, h4, p, ol, ul { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
 a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 .skip { position: absolute; left: 12px; top: -60px; z-index: 60; background: var(--foam); color: var(--ink); padding: 10px 16px; }
 .skip:focus { top: 12px; }
 .wrap { max-width: 1280px; margin: 0 auto; }
-.cap { font-family: var(--mono); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
-.grain::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.2; mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+/* ---------- Type ---------- */
+h1 { font-size: var(--fs-h1); font-weight: 300; line-height: 1.04; letter-spacing: -0.03em; }
+h1 strong { font-weight: 600; }
+h2 { font-size: var(--fs-h2); font-weight: 300; line-height: 1.1; letter-spacing: -0.025em; max-width: 22ch; }
+h3 { font-size: var(--fs-h3); font-weight: 400; line-height: 1.4; letter-spacing: -0.01em; }
+h4, .label { font: 400 var(--fs-label)/1.4 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; }
+p { color: var(--grey); }
+
+/* ---------- Controls: one component, one hover ---------- */
+.ctl { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border: 1px solid transparent; background: transparent; color: inherit; font: 500 var(--fs-label)/1 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms var(--ease); }
+.ctl.line { border-color: currentColor; }
+.ctl:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) { .ctl:hover { background: var(--ink); color: var(--white); border-color: var(--ink); } }
+.ctl.solid { background: var(--ink); color: var(--foam); border-color: var(--ink); min-height: 52px; padding: 0 30px; }
+@media (hover: hover) and (pointer: fine) { .ctl.solid:hover { background: var(--merlot); border-color: var(--merlot); } }
 
 /* ---------- Nav ---------- */
-.nav { position: fixed; inset: 0 0 auto 0; z-index: 30; height: var(--nav); display: flex; align-items: center; justify-content: space-between; padding: 0 var(--gutter); background: rgba(255,255,255,0.95); border-bottom: 1px solid var(--line); backdrop-filter: blur(8px); transition: background-color 300ms ease, border-color 300ms ease; color: var(--ink); }
-.nav .logo { position: relative; display: block; width: 130px; height: 34px; }
-.nav .logo img { position: absolute; inset: 0; height: 34px; width: auto; transition: opacity 300ms ease; }
-.nav .logo .lw { opacity: 0; }
-.nav-links { display: flex; align-items: center; gap: 36px; font-size: 13px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; }
-.nav-links a { border-bottom: 1px solid transparent; padding: 6px 0; transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease, transform 160ms var(--ease); }
-.nav-links a:active { transform: scale(0.97); }
-.nav-links .pill { border: 1px solid currentColor; padding: 11px 20px; }
-@media (hover: hover) and (pointer: fine) { .nav-links a:not(.pill):hover { border-bottom-color: currentColor; } .nav-links .pill:hover { background: var(--ink); color: var(--white); } }
-/* over the film the bar stays a light frosted strip so the links always read (AA on every frame) */
+.nav { position: fixed; inset: 0 0 auto 0; z-index: 30; height: var(--nav); display: flex; align-items: center; justify-content: space-between; padding: 0 var(--gutter); background: rgba(255,255,255,0.95); border-bottom: 1px solid var(--line); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: background-color 300ms ease; color: var(--ink); }
+/* over the film the bar is a light frosted strip so the links read on every frame */
 .nav.dark { background: rgba(246,243,232,0.92); border-bottom-color: rgba(18,12,14,0.1); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-@media (max-width: 640px) { .nav-links a:not(.pill) { display: none; } .nav .logo, .nav .logo img { height: 28px; width: 107px; } .nav-links .pill { padding: 10px 14px; } }
+.nav .logo { display: block; width: 130px; height: 34px; }
+.nav .logo img { height: 34px; width: auto; }
+.nav-links { display: flex; align-items: center; gap: 8px; }
+.prog { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--merlot); transform-origin: left; transform: scaleX(0); }
+@media (max-width: 640px) { .nav-links .ctl:not(.line) { display: none; } .nav .logo, .nav .logo img { height: 28px; width: 107px; } .nav-links .ctl { padding: 0 14px; } }
 
 /* ---------- Hero: one continuous take, scrubbed by scroll ---------- */
-.film-track { position: relative; height: 300vh; }
+.film-track { position: relative; height: 260vh; }
 .film-stick { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; background: #E9E4D8; color: var(--ink); }
 .film canvas, .film .poster { position: absolute; inset: 0; width: 100%; height: 100%; }
 .film .poster { object-fit: cover; object-position: 50% 50%; }
@@ -74,147 +92,124 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 @media (max-width: 700px) { .film .scrim { background: linear-gradient(180deg, rgba(246,243,232,0.8) 0%, rgba(246,243,232,0.45) 38%, rgba(246,243,232,0) 62%); } }
 .hero-copy { position: absolute; z-index: 5; left: var(--gutter); top: calc(var(--nav) + clamp(16px, 3.5vh, 40px)); width: min(600px, calc(100% - var(--gutter) * 2)); will-change: opacity, transform; }
 .hero-copy h1, .hero-copy p { text-shadow: 0 0 14px rgba(246,243,232,0.9), 0 0 3px rgba(246,243,232,0.85); }
-.hero-copy h1 { font-weight: 300; font-size: clamp(32px, 4.2vw, 64px); line-height: 1.02; letter-spacing: -0.03em; }
-.hero-copy h1 strong { font-weight: 600; }
-.hero-copy p { margin-top: 14px; max-width: none; color: var(--ink); font-size: 16px; font-weight: 500; }
-.hero-cta { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; }
-.btn { display: inline-flex; align-items: center; min-height: 52px; padding: 0 30px; background: var(--ink); color: var(--foam); border: 0; font: 500 13px/1 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transition: background-color 160ms ease, transform 160ms var(--ease); }
-.btn:active { transform: scale(0.98); }
-@media (hover: hover) and (pointer: fine) { .btn:hover { background: var(--merlot); } }
-.link-u { font-size: 13px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; border-bottom: 1px solid currentColor; padding: 6px 0; }
+.hero-copy p { margin-top: 14px; color: var(--ink); font-weight: 500; }
 .js .hero-copy { opacity: 0; }
-.film-hud { position: absolute; z-index: 6; left: var(--gutter); right: var(--gutter); bottom: 22px; display: flex; justify-content: space-between; align-items: center; color: var(--ink); }
-.film-hud .l, .film-hud #cue { background: rgba(246,243,232,0.94); padding: 7px 12px; }
-.film-hud .bar { flex: 1; max-width: 160px; height: 1px; background: rgba(74,64,61,0.3); margin: 0 18px; position: relative; }
-.film-hud .bar i { position: absolute; inset: 0; background: var(--merlot); transform-origin: left; transform: scaleX(0); }
-.film-hud .l { display: flex; align-items: center; }
+#cue { position: absolute; z-index: 6; left: var(--gutter); bottom: 24px; background: rgba(246,243,232,0.94); color: var(--ink); padding: 8px 14px; transition: opacity 300ms ease; }
 html:not(.js) .film-track, .reduced .film-track { height: auto; }
 html:not(.js) .film-stick, .reduced .film-stick { height: 100svh; min-height: 560px; }
 html:not(.js) .hero-copy { opacity: 1; }
 html:not(.js) .film .scrim, .reduced .film .scrim { opacity: 1; }
 
 /* ---------- Sections ---------- */
-section.block { padding: clamp(96px, 12vw, 176px) var(--gutter); }
-h2.big { font-weight: 300; font-size: clamp(34px, 5vw, 76px); line-height: 1.04; letter-spacing: -0.03em; max-width: 16ch; }
-.eyebrow { display: block; margin-bottom: 28px; }
+section.block { padding: var(--sec) var(--gutter); }
 
-/* About: overlapping swatch panels, as in the second mood board */
+/* About: three cards that cascade, in the order a visitor needs them: why, what for, who */
 #about { background: var(--foam); }
-.collage { position: relative; margin-top: clamp(56px, 7vw, 96px); height: 640px; }
-.pnl { position: absolute; padding: clamp(22px, 2.4vw, 36px); }
-.pnl h3 { font-family: var(--mono); font-weight: 400; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; }
-.pnl p { margin-top: 14px; }
-.pnl .spec { position: absolute; left: clamp(22px, 2.4vw, 36px); bottom: 20px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; opacity: 0.55; text-transform: uppercase; }
-.p-merlot { left: 0; top: 0; width: 58%; height: 340px; background: var(--merlot); color: var(--foam); z-index: 1; }
-.p-merlot p { font-weight: 300; font-size: clamp(22px, 2.5vw, 34px); line-height: 1.3; letter-spacing: -0.01em; max-width: 24ch; }
-.p-black { left: 50%; top: 90px; width: 32%; height: 270px; background: var(--black); color: var(--foam); z-index: 2; }
-.p-black p { font-weight: 300; font-size: 19px; line-height: 1.4; }
-.p-white { left: 8%; top: 270px; width: 52%; height: 330px; background: var(--white); color: var(--ink); z-index: 2; }
-.p-white p { font-size: 18px; line-height: 1.65; max-width: 50ch; }
-.p-latte { left: 56%; top: 400px; width: 40%; height: 240px; background: var(--latte); color: var(--black); z-index: 4; }
-.p-latte p { font-weight: 300; font-size: clamp(20px, 2.1vw, 28px); line-height: 1.3; }
-@media (max-width: 900px) {
-  .collage { height: auto; display: grid; gap: 0; }
-  .pnl { position: relative; left: auto !important; top: auto !important; width: 88% !important; height: auto !important; min-height: 220px; padding-bottom: 56px; }
-  .p-black { margin: -28px 0 0 12%; } .p-white { margin: -28px 0 0 0; } .p-latte { margin: -28px 0 0 12%; }
-}
+.stack { margin-top: clamp(48px, 6vw, 80px); max-width: 880px; padding-bottom: 8px; }
+.card { position: sticky; top: calc(var(--nav) + 24px + var(--i) * 44px); display: flex; flex-direction: column; justify-content: space-between; gap: 36px; min-height: 250px; padding: 16px clamp(24px, 3vw, 40px) clamp(28px, 3vw, 40px); box-shadow: 0 -14px 28px -18px rgba(18,12,14,0.35); }
+.card + .card { margin-top: 26vh; }
+.card h3 { max-width: 38ch; }
+.c-vision { background: var(--merlot); color: var(--foam); }
+.c-mission { background: var(--latte); color: var(--ink); }
+.c-about { background: var(--white); color: var(--ink); }
+@media (max-width: 900px) { .card + .card { margin-top: 18vh; } }
 
-/* Services: full-bleed stage on the right, driven by scroll */
+/* Services: pinned; one scroll gesture moves to the next service */
 #services { background: var(--white); position: relative; }
 .svc-track { height: 340vh; position: relative; }
 html:not(.js) .svc-track, .reduced .svc-track { height: auto; }
-.svc-sticky { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; display: flex; align-items: center; padding: calc(var(--nav) + 16px) 0 28px var(--gutter); }
+.svc-sticky { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; display: flex; align-items: center; padding: calc(var(--nav) + 12px) 0 20px var(--gutter); }
 html:not(.js) .svc-sticky, .reduced .svc-sticky { position: static; height: auto; padding-top: 112px; padding-bottom: 80px; }
-.svc-left { width: 52%; position: relative; z-index: 2; }
-.svc-left h2 { font-weight: 300; font-size: clamp(32px, 3.8vw, 56px); letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 32px; max-width: 14ch; }
-.svc-list { list-style: none; border-top: 1px solid var(--ink); }
+.svc-left { width: 54%; position: relative; z-index: 2; }
+.svc-left h2 { margin-bottom: clamp(16px, 3vh, 28px); max-width: none; }
+.svc-list { border-top: 1px solid var(--ink); }
 .svc-item { border-bottom: 1px solid var(--line); }
-.svc-item button { width: 100%; display: flex; align-items: baseline; gap: 20px; padding: 14px 0; background: none; border: 0; text-align: left; cursor: pointer; font: inherit; color: #6F696B; transition: color 200ms ease; }
-.svc-item .n { font-family: var(--mono); font-size: 13px; width: 28px; flex: none; }
-.svc-item .t { font-weight: 300; font-size: clamp(26px, 3vw, 46px); line-height: 1.15; letter-spacing: -0.02em; }
+.svc-item button { width: 100%; display: grid; grid-template-columns: 44px 1fr; align-items: baseline; padding: clamp(8px, 1.7vh, 16px) 0; background: none; border: 0; text-align: left; cursor: pointer; font: inherit; color: #6F696B; transition: color 200ms ease; }
+.svc-item .n { font: 400 var(--fs-label)/1 var(--mono); letter-spacing: 0.1em; }
+.svc-item .t { font-size: var(--fs-h3); font-weight: 400; line-height: 1.4; letter-spacing: -0.01em; }
 .svc-item.on button { color: var(--ink); }
 .svc-item.on .n { color: var(--merlot); }
 @media (hover: hover) and (pointer: fine) { .svc-item:not(.on) button:hover { color: var(--ink); } }
 .svc-more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 300ms var(--ease); }
 .svc-item.on .svc-more, html:not(.js) .svc-more, .reduced .svc-more { grid-template-rows: 1fr; }
-.svc-more > div { overflow: hidden; padding-left: 48px; }
-.svc-more p { color: var(--grey); max-width: 44ch; font-size: 16px; line-height: 1.65; }
-.svc-more .link-u { display: inline-block; margin: 14px 0 20px; color: var(--merlot); }
-.stage { position: absolute; right: 0; top: var(--nav); bottom: 0; width: 44vw; background: var(--black); overflow: hidden; }
-.layer { position: absolute; inset: 0; opacity: 0; transition: opacity 500ms var(--ease); display: flex; flex-direction: column; justify-content: flex-end; padding: 32px; color: var(--foam); }
+.svc-more > div { overflow: hidden; padding-left: 44px; }
+.svc-more p { max-width: 46ch; }
+.svc-more .ctl { margin: 12px 0 clamp(10px, 2vh, 18px); min-height: 40px; color: var(--merlot); }
+.stage { position: absolute; right: 0; top: var(--nav); bottom: 0; width: 42vw; background: var(--black); overflow: hidden; }
+.layer { position: absolute; inset: 0; opacity: 0; transition: opacity 500ms var(--ease); display: flex; align-items: flex-end; padding: 28px; color: var(--foam); }
 .layer.on { opacity: 1; }
 .layer img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.layer::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(10,7,8,0) 38%, rgba(10,7,8,0.8) 100%); }
-.layer .cap, .layer .nm { z-index: 2; }
-.layer .num { position: absolute; z-index: 2; right: 24px; top: 14px; font-family: var(--mono); font-size: 14px; letter-spacing: 0.1em; background: rgba(10,7,8,0.78); padding: 4px 10px; }
-.layer .cap { position: relative; }
-.layer .nm { position: relative; font-weight: 300; font-size: clamp(28px, 3.4vw, 48px); line-height: 1.1; letter-spacing: -0.02em; margin-top: 6px; }
-.g0 { background: radial-gradient(circle at 72% 28%, #8a4a63 0, #462639 34%, #1b0812 100%); }
-.g1 { background: radial-gradient(circle at 24% 78%, rgba(181,163,145,0.55) 0, transparent 38%), linear-gradient(160deg, #340D1A, #0A0708); }
-.g2 { background: radial-gradient(circle at 34% 38%, #B5A391 0, #6c5a58 30%, #2a1220 100%); }
-.g3 { background: radial-gradient(circle at 50% 62%, #9a5570 0, #340D1A 55%, #0A0708 100%); }
-.g4 { background: radial-gradient(circle at 80% 85%, #F6F3E8 0, #B5A391 45%, #6c5a58 100%); }
+.layer::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(10,7,8,0) 62%, rgba(10,7,8,0.7) 100%); }
+.layer .label { position: relative; z-index: 2; }
+.grain::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.2; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E"); }
 .item-fig { display: none; }
 @media (max-width: 900px) {
   .svc-track { height: auto; }
-  .svc-sticky { position: static; height: auto; display: block; padding: clamp(88px, 14vw, 120px) var(--gutter); }
+  .svc-sticky { position: static; height: auto; display: block; padding: var(--sec) var(--gutter); }
   .svc-left { width: 100%; }
   .stage { display: none; }
   .svc-item { padding-bottom: 28px; }
   .svc-item button { color: var(--ink); cursor: default; padding-bottom: 12px; }
   .svc-item .n { color: var(--merlot); }
-  .svc-item .t { font-size: 30px; }
   .svc-more { grid-template-rows: 1fr; }
   .svc-more > div { padding-left: 0; }
   .item-fig { display: block; position: relative; margin: 6px 0 18px; aspect-ratio: 16 / 10; overflow: hidden; background: var(--line); }
   .item-fig img { width: 100%; height: 100%; object-fit: cover; }
-  
 }
 
 /* Contact */
-#contact { background: radial-gradient(ellipse 80% 70% at 85% 0%, #462639 0%, #340D1A 55%, #1d0710 100%); color: var(--on-dark); position: relative; }
-#contact h2.big { max-width: 18ch; }
-.contact-intro { margin-top: 24px; max-width: 50ch; color: var(--on-dark-2); }
-.contact-grid { margin-top: 64px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 56px 32px; }
+#contact { background: radial-gradient(ellipse 80% 70% at 85% 0%, #5A4E4A 0%, #2A2322 52%, #0F0B0C 100%); color: var(--on-dark); position: relative; }
+#contact p { color: var(--on-dark-2); }
+.contact-intro { margin-top: 24px; max-width: 50ch; }
+.contact-grid { margin-top: 56px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 56px 32px; }
 form { grid-column: 1 / 8; display: grid; grid-template-columns: 1fr 1fr; gap: 28px 24px; }
 .field { display: flex; flex-direction: column; gap: 8px; }
 .field.full { grid-column: 1 / -1; }
-label { font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--on-dark-2); }
-input, select, textarea { font: inherit; font-size: 17px; color: var(--on-dark); background: transparent; border: 0; border-bottom: 1px solid var(--latte); border-radius: 0; min-height: 48px; padding: 10px 0; width: 100%; }
+label { font: 400 var(--fs-label)/1.4 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--on-dark-2); }
+input, select, textarea { font: inherit; color: var(--on-dark); background: transparent; border: 0; border-bottom: 1px solid var(--latte); border-radius: 0; min-height: 48px; padding: 10px 0; width: 100%; transition: border-color 160ms ease, box-shadow 160ms ease; }
 select option { color: var(--ink); }
 textarea { min-height: 130px; resize: vertical; }
-input, select, textarea { transition: border-color 160ms ease, box-shadow 160ms ease; }
-#contact .btn { background: var(--foam); color: var(--ink); }
-@media (hover: hover) and (pointer: fine) { #contact .btn:hover { background: var(--white); } }
 input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 0; border-bottom-color: var(--white); box-shadow: 0 1px 0 var(--white); }
+#contact .ctl.solid { background: var(--foam); color: var(--ink); border-color: var(--foam); }
+@media (hover: hover) and (pointer: fine) { #contact .ctl.solid:hover { background: var(--white); border-color: var(--white); color: var(--ink); } }
 .actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 20px; }
-.status { font-size: 15px; color: var(--on-dark-2); min-height: 1.5em; }
+.status { min-height: 1.5em; }
 .side { grid-column: 9 / 13; align-self: start; border-top: 1px solid var(--latte); }
 .side div { padding: 22px 0; border-bottom: 1px solid rgba(181,163,145,0.35); }
-.side h3 { font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--on-dark-2); }
-.side p { margin-top: 6px; font-size: 19px; font-weight: 300; line-height: 1.45; }
+.side h4 { color: var(--on-dark-2); }
+.side h3 { margin-top: 6px; font-weight: 300; color: var(--on-dark); }
 @media (max-width: 900px) { form, .side { grid-column: 1 / -1; } form { grid-template-columns: 1fr; } }
 
-footer { background: var(--black); color: var(--on-dark-2); padding: 48px var(--gutter); }
-footer .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 32px; }
-footer img { height: 34px; width: auto; }
+/* Footer: three columns, a rule, then a bottom bar */
+footer { background: var(--black); color: var(--on-dark-2); padding: clamp(56px, 6vw, 88px) var(--gutter) 28px; }
+.foot-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 32px; padding-bottom: clamp(40px, 5vw, 64px); }
+footer h4 { color: var(--on-dark); margin-bottom: 20px; }
+footer li + li { margin-top: 10px; }
+footer a, footer li { color: var(--on-dark-2); transition: color 160ms ease; }
+@media (hover: hover) and (pointer: fine) { footer a:hover { color: var(--white); } }
+.foot-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px; padding-top: 28px; border-top: 1px solid rgba(205,191,176,0.25); }
+.foot-bar .brand { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.foot-bar img { height: 30px; width: auto; }
+@media (max-width: 700px) { .foot-grid { grid-template-columns: 1fr; } }
 
 .js .rise { opacity: 0; transform: translateY(16px); transition: opacity 600ms var(--ease), transform 600ms var(--ease); transition-delay: var(--d, 0ms); }
 .js .rise.in { opacity: 1; transform: none; }
 .reduced .rise { opacity: 1 !important; transform: none !important; transition: none !important; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .layer, .svc-more { transition: none; } .btn:active, .nav-links a:active { transform: none; } .js .rise { transform: none; transition: opacity 200ms ease; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .layer, .svc-more { transition: none; } .ctl:active { transform: none; } .js .rise { transform: none; transition: opacity 200ms ease; } }
 </style>
 </head>
 <body>
 <a class="skip" href="#about">Skip to content</a>
 
 <header class="nav dark" id="nav">
-  <a class="logo" href="#top" aria-label="Dean Baker Studios, home"><img class="lb" src="assets/logo-black.svg" alt="" width="130" height="34"><img class="lw" src="assets/logo-white.svg" alt="Dean Baker Studios" width="130" height="34"></a>
+  <a class="logo" href="#top" aria-label="Dean Baker Studios, home"><img src="assets/logo-black.svg" alt="Dean Baker Studios" width="130" height="34"></a>
   <nav class="nav-links" aria-label="Main">
-    <a href="#about">About</a>
-    <a href="#services">Services</a>
-    <a class="pill" href="#contact">Contact</a>
+    <a class="ctl" href="#about">About</a>
+    <a class="ctl" href="#services">Services</a>
+    <a class="ctl line" href="#contact">Contact</a>
   </nav>
+  <i class="prog" id="prog" aria-hidden="true"></i>
 </header>
 
 <main id="top">
@@ -226,24 +221,20 @@ footer img { height: 34px; width: auto; }
 
       <div class="hero-copy" id="heroCopy">
         <h1>Original work that <strong>shapes culture.</strong></h1>
-        <p>An independent production company based in Lusaka, Zambia.</p>
+        <p>An independent production company.</p>
       </div>
 
-      <div class="film-hud cap" aria-hidden="true">
-        <span class="l"><span id="scene">01 &mdash; The page</span><span class="bar"><i id="bar"></i></span></span>
-        <span id="cue">Scroll</span>
-      </div>
+      <span class="label" id="cue" aria-hidden="true">Scroll to begin</span>
     </div>
   </section>
 
   <section class="block" id="about">
     <div class="wrap">
-      <h2 class="big rise">Storytelling, with an uncompromising standard.</h2>
-      <div class="collage">
-        <div class="pnl p-merlot rise"><h3>Vision</h3><p>To create original work that shapes culture, inspires ideas, and reaches global audiences.</p></div>
-        <div class="pnl p-black rise" style="--d:70ms"><h3>Studio</h3><p>Based in Lusaka, Zambia. Working across five formats.</p></div>
-        <div class="pnl p-white rise" style="--d:140ms"><h3>About</h3><p>Dean Baker Studios is an independent production company based in Lusaka, Zambia. We develop and produce original content across digital media, film, television, audio and publishing, crafted with intention and built for global audiences.</p></div>
-        <div class="pnl p-latte rise" style="--d:210ms"><h3>Mission</h3><p>To redefine storytelling, driven by vision, craft, and an uncompromising standard.</p></div>
+      <h2 class="rise">Storytelling, with an uncompromising standard.</h2>
+      <div class="stack">
+        <article class="card c-vision" style="--i:0"><h4>Vision</h4><h3>To create original work that shapes culture, inspires ideas, and reaches global audiences.</h3></article>
+        <article class="card c-mission" style="--i:1"><h4>Mission</h4><h3>To redefine storytelling, driven by vision, craft, and an uncompromising standard.</h3></article>
+        <article class="card c-about" style="--i:2"><h4>About</h4><h3>Dean Baker Studios is an independent production company. We develop and produce original content across digital media, film, television, audio and publishing, crafted with intention and built for global audiences.</h3></article>
       </div>
     </div>
   </section>
@@ -256,24 +247,24 @@ footer img { height: 34px; width: auto; }
           <h2>Five formats, one standard.</h2>
           <ol class="svc-list">
             <li class="svc-item on" data-i="0"><button type="button" aria-expanded="true"><span class="n">01</span><span class="t">Digital media</span></button>
-              <div class="svc-more"><div><div class="item-fig"><img src="img/digital.webp" alt="Placeholder still: a laptop showing a video edit timeline." loading="lazy"></div><p>Original series and short-form content made for the screens people actually watch.</p><a class="link-u" href="#contact" data-type="Digital media">Enquire</a></div></div></li>
+              <div class="svc-more"><div><div class="item-fig"><img src="img/digital.webp" alt="Placeholder still: a laptop showing a video edit timeline." loading="lazy"></div><p>Original series and short-form content made for the screens people actually watch.</p><a class="ctl line" href="#contact" data-type="Digital media">Enquire</a></div></div></li>
             <li class="svc-item" data-i="1"><button type="button" aria-expanded="false"><span class="n">02</span><span class="t">Film</span></button>
-              <div class="svc-more"><div><div class="item-fig"><img src="img/film.webp" alt="Placeholder still: a vintage film camera on a wooden tripod." loading="lazy"></div><p>Feature films and documentaries, developed in Lusaka for festivals, cinemas and streaming.</p><a class="link-u" href="#contact" data-type="Film">Enquire</a></div></div></li>
+              <div class="svc-more"><div><div class="item-fig"><img src="img/film.webp" alt="Placeholder still: a vintage film camera on a wooden tripod." loading="lazy"></div><p>Feature films and documentaries, developed for festivals, cinemas and streaming.</p><a class="ctl line" href="#contact" data-type="Film">Enquire</a></div></div></li>
             <li class="svc-item" data-i="2"><button type="button" aria-expanded="false"><span class="n">03</span><span class="t">Television</span></button>
-              <div class="svc-more"><div><div class="item-fig"><img src="img/television.webp" alt="Placeholder still: a leather armchair with a woven blanket." loading="lazy"></div><p>Series and specials written, produced and delivered to broadcasters and platforms.</p><a class="link-u" href="#contact" data-type="Television">Enquire</a></div></div></li>
+              <div class="svc-more"><div><div class="item-fig"><img src="img/television.webp" alt="Placeholder still: a leather armchair with a woven blanket." loading="lazy"></div><p>Series and specials written, produced and delivered to broadcasters and platforms.</p><a class="ctl line" href="#contact" data-type="Television">Enquire</a></div></div></li>
             <li class="svc-item" data-i="3"><button type="button" aria-expanded="false"><span class="n">04</span><span class="t">Audio</span></button>
-              <div class="svc-more"><div><div class="item-fig"><img src="img/audio.webp" alt="Placeholder still: a studio microphone on a boom arm." loading="lazy"></div><p>Podcasts, radio documentaries and sound design, recorded with the care we give picture.</p><a class="link-u" href="#contact" data-type="Audio">Enquire</a></div></div></li>
+              <div class="svc-more"><div><div class="item-fig"><img src="img/audio.webp" alt="Placeholder still: a studio microphone on a boom arm." loading="lazy"></div><p>Podcasts, radio documentaries and sound design, recorded with the care we give picture.</p><a class="ctl line" href="#contact" data-type="Audio">Enquire</a></div></div></li>
             <li class="svc-item" data-i="4"><button type="button" aria-expanded="false"><span class="n">05</span><span class="t">Publishing</span></button>
-              <div class="svc-more"><div><div class="item-fig"><img src="img/publishing.webp" alt="Placeholder still: an open book and script pages on an oak table." loading="lazy"></div><p>Books and anthologies that carry our stories onto the page, from first draft to print.</p><a class="link-u" href="#contact" data-type="Publishing">Enquire</a></div></div></li>
+              <div class="svc-more"><div><div class="item-fig"><img src="img/publishing.webp" alt="Placeholder still: an open book and script pages on an oak table." loading="lazy"></div><p>Books and anthologies that carry our stories onto the page, from first draft to print.</p><a class="ctl line" href="#contact" data-type="Publishing">Enquire</a></div></div></li>
           </ol>
         </div>
-        <!-- Full-bleed stage: put a real still inside each .layer (as a background-image or <img>) when the work exists. -->
+        <!-- Full-bleed stage: swap each still for real work when it exists. -->
         <div class="stage grain" id="stage" aria-hidden="true">
-          <div class="layer g0 on"><img src="img/digital.webp" alt="" loading="lazy"><span class="num">01</span><span class="cap">Placeholder &middot; still</span><span class="nm">Digital media</span></div>
-          <div class="layer g1"><img src="img/film.webp" alt="" loading="lazy"><span class="num">02</span><span class="cap">Placeholder &middot; still</span><span class="nm">Film</span></div>
-          <div class="layer g2"><img src="img/television.webp" alt="" loading="lazy"><span class="num">03</span><span class="cap">Placeholder &middot; still</span><span class="nm">Television</span></div>
-          <div class="layer g3"><img src="img/audio.webp" alt="" loading="lazy"><span class="num">04</span><span class="cap">Placeholder &middot; still</span><span class="nm">Audio</span></div>
-          <div class="layer g4"><img src="img/publishing.webp" alt="" loading="lazy"><span class="num">05</span><span class="cap">Placeholder &middot; still</span><span class="nm">Publishing</span></div>
+          <div class="layer on"><img src="img/digital.webp" alt="" loading="lazy"><span class="label">Placeholder still</span></div>
+          <div class="layer"><img src="img/film.webp" alt="" loading="lazy"><span class="label">Placeholder still</span></div>
+          <div class="layer"><img src="img/television.webp" alt="" loading="lazy"><span class="label">Placeholder still</span></div>
+          <div class="layer"><img src="img/audio.webp" alt="" loading="lazy"><span class="label">Placeholder still</span></div>
+          <div class="layer"><img src="img/publishing.webp" alt="" loading="lazy"><span class="label">Placeholder still</span></div>
         </div>
       </div>
     </div>
@@ -281,7 +272,7 @@ footer img { height: 34px; width: auto; }
 
   <section class="block" id="contact">
     <div class="wrap">
-      <h2 class="big rise">Let&rsquo;s talk about what we can make together.</h2>
+      <h2 class="rise">Let&rsquo;s talk about what we can make together.</h2>
       <p class="contact-intro rise">For partnerships, funding and collaboration enquiries, send us a note and we will reply personally.</p>
       <div class="contact-grid">
         <form id="form" novalidate>
@@ -291,13 +282,12 @@ footer img { height: 34px; width: auto; }
           <div class="field"><label for="topic">Interested in</label>
             <select id="topic" name="topic"><option>Partnership</option><option>Funding</option><option>Digital media</option><option>Film</option><option>Television</option><option>Audio</option><option>Publishing</option><option>Something else</option></select></div>
           <div class="field full"><label for="msg">Message</label><textarea id="msg" name="msg" required></textarea></div>
-          <div class="actions"><button class="btn" type="submit">Send enquiry</button><p class="status" id="status" role="status"></p></div>
+          <div class="actions"><button class="ctl solid" type="submit">Send enquiry</button><p class="status" id="status" role="status"></p></div>
         </form>
         <aside class="side">
-          <div><h3>Based in</h3><p>Lusaka, Zambia</p></div>
           <!-- PLACEHOLDER: confirm the studio email, then change CONTACT_EMAIL in the script too. -->
-          <div><h3>Email</h3><p id="emailtxt">hello@deanbakerstudios.com</p></div>
-          <div><h3>Studio</h3><p>Film, television, audio, digital media and publishing.</p></div>
+          <div><h4>Email</h4><h3 id="emailtxt">hello@deanbakerstudios.com</h3></div>
+          <div><h4>Based in</h4><h3>Lusaka, Zambia</h3></div>
         </aside>
       </div>
     </div>
@@ -305,10 +295,18 @@ footer img { height: 34px; width: auto; }
 </main>
 
 <footer>
-  <div class="wrap">
-    <img src="assets/logo-white.svg" alt="Dean Baker Studios" width="130" height="34">
-    <span class="cap">&copy; 2026 Dean Baker Studios &middot; Lusaka, Zambia</span>
-    <span class="cap">Film &middot; Television &middot; Audio &middot; Digital &middot; Publishing</span>
+  <div class="wrap foot-grid">
+    <div><h4>Quick links</h4>
+      <ul><li><a href="#top">Home</a></li><li><a href="#about">About</a></li><li><a href="#services">Services</a></li><li><a href="#contact">Contact</a></li></ul></div>
+    <div><h4>Services</h4>
+      <ul><li><a href="#services" data-svc="0">Digital media</a></li><li><a href="#services" data-svc="1">Film</a></li><li><a href="#services" data-svc="2">Television</a></li><li><a href="#services" data-svc="3">Audio</a></li><li><a href="#services" data-svc="4">Publishing</a></li></ul></div>
+    <div><h4>Contact</h4>
+      <!-- Social links go here once the client supplies them. -->
+      <ul><li><a id="footEmail" href="mailto:hello@deanbakerstudios.com">hello@deanbakerstudios.com</a></li><li>Lusaka, Zambia</li></ul></div>
+  </div>
+  <div class="wrap foot-bar">
+    <div class="brand"><img src="assets/logo-white.svg" alt="Dean Baker Studios" width="109" height="30"><span>&copy; 2026 Dean Baker Studios. All rights reserved.</span></div>
+    <span>Original work that shapes culture.</span>
   </div>
 </footer>
 
@@ -321,6 +319,8 @@ footer img { height: 34px; width: auto; }
   var clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
   var seg = function (p, a, b) { return clamp((p - a) / (b - a), 0, 1); };
   var ease = function (t) { return 1 - Math.pow(1 - t, 3); };
+  var outQuart = function (t) { return 1 - Math.pow(1 - t, 4); };
+  var inOutQuart = function (t) { return t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2; };
 
   /* Reveal */
   var rises = document.querySelectorAll('.rise');
@@ -335,11 +335,10 @@ footer img { height: 34px; width: auto; }
   var FRAMES = { count: 200, dir: 'frames/', ext: 'webp', pad: 3 };   // 10s take, 20 fps
   var filmTrack = document.getElementById('filmTrack'), film = document.getElementById('film');
   var canvas = document.getElementById('frames'), ctx = canvas.getContext('2d'), poster = document.getElementById('poster');
-  var heroCopy = document.getElementById('heroCopy'), scrim = document.getElementById('scrim');
-  var sceneEl = document.getElementById('scene'), bar = document.getElementById('bar'), cue = document.getElementById('cue');
-  var nav = document.getElementById('nav');
+  var heroCopy = document.getElementById('heroCopy'), scrim = document.getElementById('scrim'), cue = document.getElementById('cue');
+  var nav = document.getElementById('nav'), prog = document.getElementById('prog');
   var N0 = FRAMES.count, step = window.matchMedia('(max-width: 900px)').matches ? 2 : 1;   // phones load every 2nd frame
-  var imgs = new Array(N0), ready = new Array(N0), lastKey = '', painted = false;
+  var imgs = new Array(N0), ready = new Array(N0), lastKey = -1, painted = false, pos = 0;
 
   function loadFrame(i) {
     var im = new Image();
@@ -351,41 +350,37 @@ footer img { height: 34px; width: auto; }
   for (var i = 0; i < N0; i += step) { (i % (10 * step) === 0 || i >= N0 - step ? order : later).push(i); }
   order.concat(later).forEach(loadFrame);
 
-  var pos = 0;   // fractional frame position, driven by scroll
   function below(i) { for (; i >= 0; i--) if (ready[i]) return i; return -1; }
   function above(i) { for (; i < N0; i++) if (ready[i]) return i; return -1; }
   function sizeCanvas() {
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.round(film.clientWidth * dpr); canvas.height = Math.round(film.clientHeight * dpr); lastKey = '';
+    canvas.width = Math.round(film.clientWidth * dpr); canvas.height = Math.round(film.clientHeight * dpr); lastKey = -1;
   }
-  function put(im, alpha) {
-    var w = canvas.width, h = canvas.height, s = Math.max(w / im.naturalWidth, h / im.naturalHeight);
-    ctx.globalAlpha = alpha;
-    ctx.drawImage(im, (w - im.naturalWidth * s) / 2, (h - im.naturalHeight * s) / 2, im.naturalWidth * s, im.naturalHeight * s);
-  }
-  // One crisp frame at a time (blending neighbours ghosts moving objects). Lenis already eases the scroll itself.
+  // One crisp frame at a time: blending neighbours ghosts moving objects.
   function draw() {
     var f = Math.round(pos), k = below(f), u = above(f);
     if (k < 0 && u < 0) return;
     if (k < 0 || (u >= 0 && u - f < f - k)) k = u;
     if (k === lastKey) return; lastKey = k;
-    ctx.globalAlpha = 1; put(imgs[k], 1);
+    var im = imgs[k], w = canvas.width, h = canvas.height, s = Math.max(w / im.naturalWidth, h / im.naturalHeight);
+    ctx.drawImage(im, (w - im.naturalWidth * s) / 2, (h - im.naturalHeight * s) / 2, im.naturalWidth * s, im.naturalHeight * s);
     if (!painted) { painted = true; poster.style.visibility = 'hidden'; }
   }
   sizeCanvas();
 
+  var cueText = '';
   function renderFilm(p) {
     pos = p * (N0 - 1);
     draw();
     var hc = seg(p, 0.74, 0.92);
     heroCopy.style.opacity = hc; heroCopy.style.transform = 'translateY(' + (1 - ease(hc)) * 20 + 'px)';
     scrim.style.opacity = hc;
-    sceneEl.textContent = p < 0.38 ? '01 \u2014 The page' : p < 0.55 ? '02 \u2014 The pull back' : p < 0.8 ? '03 \u2014 The studio' : '04 \u2014 Dean Baker Studios';
-    bar.style.transform = 'scaleX(' + p + ')';
-    cue.style.opacity = p < 0.04 ? 1 : 0;
+    var t = p < 0.04 ? 'Scroll to begin' : p > 0.985 ? 'Scroll to continue' : '';
+    if (t !== cueText) { cueText = t; if (t) cue.textContent = t; cue.style.opacity = t ? 1 : 0; }
   }
 
   /* ---- Services ---- */
+  var about = document.getElementById('about'), contact = document.getElementById('contact');
   var track = document.getElementById('track');
   var items = [].slice.call(document.querySelectorAll('.svc-item'));
   var layers = [].slice.call(document.querySelectorAll('.layer'));
@@ -408,53 +403,135 @@ footer img { height: 34px; width: auto; }
       var r = track.getBoundingClientRect(), span = track.offsetHeight - window.innerHeight;
       show(Math.min(N - 1, Math.floor(clamp(-r.top / span, 0, 1) * N)));
     }
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    prog.style.transform = 'scaleX(' + clamp(window.scrollY / Math.max(1, max), 0, 1) + ')';
   }
   if (reduce) { renderFilm(1); }
-  // Smooth scrolling: Lenis (MIT, github.com/darkroomengineering/lenis, vendored in /vendor).
-  // Skipped for reduced motion and when the file is missing; native scrolling still works.
-  var lenis = null;
+
+  /* ---- Scrolling: Lenis (MIT, github.com/darkroomengineering/lenis, vendored in /vendor) ----
+     Desktop wheel: the hero and the services list move in single steps (one gesture = one step).
+     Touch, trackpad drags, scrollbar and keyboard still work because everything is driven by scroll position. */
+  var lenis = null, M = {}, stepping = false, lastWheel = 0;
+  function measure() {
+    var y = window.scrollY, nh = nav.offsetHeight;
+    M.nav = nh;
+    M.heroSpan = filmTrack.offsetHeight - window.innerHeight;
+    M.aboutTop = about.getBoundingClientRect().top + y;
+    M.svcTop = track.getBoundingClientRect().top + y;
+    M.svcSpan = track.offsetHeight - window.innerHeight;
+    M.contactTop = contact.getBoundingClientRect().top + y;
+  }
+  function svcStop(k) { return M.svcTop + M.svcSpan * (k + 0.5) / N; }
+  function goTo(y, dur, ez) {
+    if (lenis) {
+      stepping = true;
+      var done = function () { stepping = false; };
+      lenis.scrollTo(y, { duration: dur || 1.2, easing: ez || outQuart, lock: true, force: true, onComplete: done });
+      setTimeout(done, (dur || 1.2) * 1000 + 250);
+    } else window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+  }
+  // Where should one gesture in this direction go? null = let normal smooth scrolling handle it.
+  function stepTarget(y, dir) {
+    measure();
+    var k;
+    var aboutLand = M.aboutTop - M.nav + 1;
+    if (y < aboutLand - 2) {                                    // hero
+      if (dir > 0) return y < M.heroSpan - 6 ? { y: M.heroSpan, d: 3, e: inOutQuart } : { y: aboutLand, d: 1.1, e: outQuart };
+      if (y > M.heroSpan + 6) return { y: M.heroSpan, d: 1.1, e: outQuart };
+      return y > 6 ? { y: 0, d: 2.4, e: inOutQuart } : null;
+    }
+    if (y >= M.svcTop - 4 && y <= M.svcTop + M.svcSpan + 4) {   // services
+      if (dir > 0) {
+        for (k = 0; k < N; k++) if (svcStop(k) > y + 8) return { y: svcStop(k), d: 0.85, e: outQuart };
+        return { y: M.contactTop - M.nav + 1, d: 1.2, e: outQuart };
+      }
+      for (k = N - 1; k >= 0; k--) if (svcStop(k) < y - 8) return { y: svcStop(k), d: 0.85, e: outQuart };
+      return { y: Math.max(M.aboutTop, M.svcTop - window.innerHeight), d: 1.2, e: outQuart };
+    }
+    return null;
+  }
+  function stepping_on() { return lenis && mq.matches && !reduce; }
+  function onVirtual(data) {
+    var ev = data.event;
+    if (!stepping_on() || ev.type.indexOf('wheel') < 0 || !data.deltaY) return true;
+    var now = performance.now(), gap = now - lastWheel; lastWheel = now;
+    var dir = data.deltaY > 0 ? 1 : -1;
+    var t = stepTarget(window.scrollY, dir);
+    if (!t) return true;
+    if (ev.cancelable) ev.preventDefault();
+    ev.lenisStopPropagation = true;                              // we handle this one ourselves
+    if (!stepping && gap > 110) goTo(t.y, t.d, t.e);             // a fresh gesture, not a trackpad tail
+    return true;
+  }
+
   if (window.Lenis && !reduce) {
-    lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 1.1, autoRaf: true });
+    lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 1.1, autoRaf: true, virtualScroll: onVirtual });
     lenis.on('scroll', onScroll);   // render in the same frame Lenis moves the page
   } else {
     var tick = false;
     window.addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(function () { tick = false; onScroll(); }); } }, { passive: true });
   }
-  window.addEventListener('resize', function () { sizeCanvas(); draw(); onScroll(); });
-  function goTo(y, dur) {
-    if (lenis) lenis.scrollTo(y, { duration: dur || 1.4, easing: function (t) { return 1 - Math.pow(1 - t, 4); } });
-    else window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+  window.addEventListener('resize', function () { sizeCanvas(); draw(); measure(); onScroll(); });
+  window.addEventListener('load', measure);
+
+  // Keyboard: arrows, Page keys and Space take the same steps.
+  window.addEventListener('keydown', function (e) {
+    if (!stepping_on() || e.repeat || e.altKey || e.ctrlKey || e.metaKey) return;
+    var tg = e.target, tag = tg && tg.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+    var dir = 0;
+    if (e.key === 'ArrowDown' || e.key === 'PageDown') dir = 1;
+    else if (e.key === 'ArrowUp' || e.key === 'PageUp') dir = -1;
+    else if (e.key === ' ' && tag !== 'BUTTON' && tag !== 'A') dir = e.shiftKey ? -1 : 1;
+    if (!dir) return;
+    var t = stepTarget(window.scrollY, dir);
+    if (!t) return;
+    e.preventDefault();
+    if (!stepping) goTo(t.y, t.d, t.e);
+  });
+
+  // In-page links
+  function anchorY(id) {
+    measure();
+    if (id === '#top') return 0;
+    if (id === '#about') return M.aboutTop - M.nav + 1;
+    if (id === '#contact') return M.contactTop - M.nav + 1;
+    if (id === '#services') return mq.matches && !reduce ? svcStop(0) : document.getElementById('services').getBoundingClientRect().top + window.scrollY - M.nav;
+    return null;
   }
   document.querySelectorAll('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
-      var id = a.getAttribute('href'); if (id.length < 2) { if (id === '#top') { e.preventDefault(); goTo(0, 1.4); } return; }
-      var el = document.querySelector(id); if (!el) return;
+      var id = a.getAttribute('href'); if (id.length < 2) return;
+      var y = anchorY(id); if (y === null) return;
+      var k = a.getAttribute('data-svc');
+      if (k !== null && mq.matches && !reduce) y = svcStop(+k);
       e.preventDefault();
-      goTo(el.getBoundingClientRect().top + window.scrollY - (id === '#services' ? 0 : nav.offsetHeight - 1), 1.4);
-      if (el.id) history.replaceState(null, '', id);
+      goTo(y, 1.4);
+      history.replaceState(null, '', id);
     });
   });
   items.forEach(function (it, k) {
     it.querySelector('button').addEventListener('click', function () {
       if (!mq.matches || reduce) return;
-      var top = track.getBoundingClientRect().top + window.scrollY, span = track.offsetHeight - window.innerHeight;
-      goTo(top + span * (k + 0.5) / N, 1.1);
+      measure(); goTo(svcStop(k), 0.85);
     });
   });
-  onScroll();
+  measure(); onScroll();
 
   /* ---- Contact ---- */
   var topic = document.getElementById('topic');
   document.querySelectorAll('[data-type]').forEach(function (a) { a.addEventListener('click', function () { topic.value = a.getAttribute('data-type'); }); });
   var form = document.getElementById('form'), status = document.getElementById('status');
   document.getElementById('emailtxt').textContent = CONTACT_EMAIL;
+  var fe = document.getElementById('footEmail'); fe.textContent = CONTACT_EMAIL; fe.href = 'mailto:' + CONTACT_EMAIL;
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var f = form.elements;
     if (!f.name.value.trim() || !/^\S+@\S+\.\S+$/.test(f.email.value) || !f.msg.value.trim()) { status.textContent = 'Please add your name, a valid email and a message.'; return; }
-    var body = 'Name: ' + f.name.value + '\nOrganisation: ' + f.org.value + '\nEmail: ' + f.email.value + '\nInterested in: ' + f.topic.value + '\n\n' + f.msg.value;
+    var subject = 'Enquiry: ' + f.topic.value;
+    var body = 'Name: ' + f.name.value.trim() + '\nEmail: ' + f.email.value.trim() + '\nOrganisation: ' + f.org.value.trim() + '\n\n' + f.msg.value.trim();
     status.textContent = 'Opening your email app. If nothing opens, write to ' + CONTACT_EMAIL + '.';
-    try { window.location.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent('Enquiry: ' + f.topic.value) + '&body=' + encodeURIComponent(body); } catch (err) {}
+    window.location.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
   });
 })();
 </script>
