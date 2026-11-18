@@ -42,3 +42,4 @@ CSS variables at the top of `index.html` (`--black`, `--foam`, `--latte`, `--mer
 - New illustrated service art; improved service copy; garbled lettering retouched out of the hero still.
 
 - Services scroll-driven again (pinned on desktop, plain 1:1 scrolling, step counter; tap-to-open on mobile).
+- Equal scroll length per service; softer colour balance (About back to a light blush background, Merlot on cards/accents).
