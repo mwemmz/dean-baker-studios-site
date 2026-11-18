@@ -34,3 +34,9 @@ CSS variables at the top of `index.html` (`--black`, `--foam`, `--latte`, `--mer
 - Merlot (#340D1A) design system, Montserrat only, rounded corners, enquiry form opens as a popup.
 - `img/*.svg` are placeholder brand-colour illustrations for the five services; replace with real photos/stills.
 - Footer credit: "Website by Digital Polaroid Technologies" (confirm wording/link).
+
+## Update (18 Nov 2026, feedback round 2)
+- Removed scroll hijacking and Lenis (native scrolling now); services are click-to-select.
+- Enquiry form replaced with Email / WhatsApp / Call buttons. Set EMAIL, PHONE, WHATSAPP at the top of the script (currently placeholders).
+- New Approach section (process + roadmap) is DRAFT copy to confirm with the client.
+- New illustrated service art; improved service copy; garbled lettering retouched out of the hero still.
