@@ -27,3 +27,10 @@ Static host: Cloudflare Pages (build command none, output directory `/`), Netlif
 ## Palette
 
 CSS variables at the top of `index.html` (`--black`, `--foam`, `--latte`, `--merlot`, ...). Switching to strict mono is a variable change.
+
+
+## Update (18 Nov 2026)
+- Hero is now a static still (`img/hero.webp`); the scroll-scrubbed video and `frames/` are gone.
+- Merlot (#340D1A) design system, Montserrat only, rounded corners, enquiry form opens as a popup.
+- `img/*.svg` are placeholder brand-colour illustrations for the five services; replace with real photos/stills.
+- Footer credit: "Website by Digital Polaroid Technologies" (confirm wording/link).
