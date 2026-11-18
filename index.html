@@ -123,14 +123,24 @@ p{font-size:var(--fs-b)}
 .about-side .badge+.badge{background:var(--latte);color:var(--merlot)}
 
 /* Services */
-#services{background:var(--foam);z-index:3;padding:clamp(72px,11vh,120px) 0 calc(clamp(72px,11vh,120px) + var(--r-l))}
+#services{background:var(--foam);z-index:3}
+.svc-track{position:relative;height:340vh;border-radius:var(--r-l) var(--r-l) 0 0}
+.svc-sticky{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center;padding:calc(var(--nav) + 6px) 0 18px}
+.svc-sticky>.wrap{width:100%}
+#services .head{margin-bottom:clamp(14px,3.2vh,40px)}
+.svc-meta{display:grid;gap:10px;max-width:40ch}
+.svc-count{display:flex;align-items:center;gap:14px;font-size:var(--fs-l);font-weight:700;letter-spacing:.12em;color:var(--merlot);font-variant-numeric:tabular-nums}
+.svc-bar{flex:1;height:4px;border-radius:4px;background:rgba(52,13,26,.14);overflow:hidden}
+.svc-bar i{display:block;height:100%;background:var(--merlot);border-radius:4px;transform-origin:0 50%;transform:scaleX(.2)}
+.m-only{display:none}
+@media (max-height:700px){#services .head .svc-meta p{display:none}}
 .head{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:clamp(28px,4.5vh,52px)}
 .head p{max-width:40ch;color:var(--grey)}
 #services h2{color:var(--merlot)}
 .svc-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(24px,4vw,64px);align-items:start}
-.svc-list{list-style:none;padding:0;display:grid;gap:10px}
+.svc-list{list-style:none;padding:0;display:grid;gap:clamp(4px,1vh,10px)}
 .svc-item{border-radius:var(--r-m);transition:background .3s var(--ease),color .3s var(--ease),box-shadow .3s var(--ease)}
-.svc-item>button{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:clamp(14px,1.6vw,22px);width:100%;padding:clamp(14px,2vh,20px) clamp(16px,1.6vw,24px);cursor:pointer;
+.svc-item>button{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:clamp(14px,1.6vw,22px);width:100%;padding:clamp(9px,1.7vh,18px) clamp(16px,1.6vw,24px);cursor:pointer;
   font-size:var(--fs-t);font-weight:600;line-height:1.2;border-radius:var(--r-m)}
 .svc-item>button:focus-visible{outline:3px solid var(--merlot);outline-offset:2px}
 .svc-item .n{min-width:2.1ch;font-weight:700;color:var(--merlot);opacity:.5;font-variant-numeric:tabular-nums;transition:opacity .3s,color .3s}
@@ -148,9 +158,9 @@ p{font-size:var(--fs-b)}
 .svc-more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease)}
 .svc-more>div{overflow:hidden;min-height:0}
 .svc-item.on .svc-more{grid-template-rows:1fr}
-.svc-more p{padding:0 clamp(16px,1.6vw,24px) clamp(18px,2.4vh,24px) calc(clamp(16px,1.6vw,24px) + 2.1ch + clamp(14px,1.6vw,22px));color:var(--on-dark-2);max-width:54ch}
+.svc-more p{padding:0 clamp(16px,1.6vw,24px) clamp(12px,2vh,22px) calc(clamp(16px,1.6vw,24px) + 2.1ch + clamp(14px,1.6vw,22px));color:var(--on-dark-2);max-width:54ch}
 .item-fig{display:none}
-.stage{position:sticky;top:calc(var(--nav) + 20px);aspect-ratio:4/5;width:100%;max-height:calc(100vh - var(--nav) - 48px);margin-left:auto;border-radius:var(--r-l);overflow:hidden;background:var(--merlot);box-shadow:0 24px 60px rgba(52,13,26,.22)}
+.stage{position:relative;aspect-ratio:4/5;height:min(calc(100vh - var(--nav) - 150px),560px);max-height:62vh;width:auto;justify-self:end;border-radius:var(--r-l);overflow:hidden;background:var(--merlot);box-shadow:0 24px 60px rgba(52,13,26,.22)}
 .layer{position:absolute;inset:0;opacity:0;transform:scale(1.05);transition:opacity .6s var(--ease),transform .9s var(--ease)}
 .layer.on{opacity:1;transform:none}
 .layer img{width:100%;height:100%;object-fit:cover}
@@ -240,6 +250,12 @@ footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
   .road-grid{grid-template-columns:1fr}
   .contact-grid{grid-template-columns:minmax(0,1fr)}
   .svc-grid{grid-template-columns:minmax(0,1fr)}
+  .svc-track{height:auto}
+  .svc-sticky{position:static;height:auto;display:block;padding:clamp(72px,11vh,120px) 0 calc(clamp(72px,11vh,120px) + var(--r-l))}
+  .svc-count,.d-only{display:none}
+  .m-only{display:inline}
+  #services .head .svc-meta p{display:block}
+  .svc-grid>.stage{display:none}
   #contact{min-height:0}
   .foot-grid{grid-template-columns:1fr 1fr}
   .foot-grid>div:last-child{grid-column:1/-1}
@@ -325,10 +341,11 @@ footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
   <!-- PLACEHOLDER COPY: service descriptions are drafts; replace with the client's copy when supplied.
        PLACEHOLDER ART: img/*.svg are brand illustrations; swap in real stills or photos (same file names) when they exist. -->
   <section class="sec" id="services" aria-labelledby="svcH">
+    <div class="svc-track" id="track"><div class="svc-sticky">
     <div class="wrap">
       <div class="head">
         <h2 class="rise" id="svcH">Five formats, <strong>one standard.</strong></h2>
-        <p class="rise" style="--d:.1s">Original content across five formats, developed and produced with the same care. Select a format to see what it covers.</p>
+        <div class="svc-meta rise" style="--d:.1s"><p><span class="d-only">Original content across five formats, developed and produced with the same care. Keep scrolling to move through them.</span><span class="m-only">Original content across five formats, developed and produced with the same care. Tap a format to see what it covers.</span></p><div class="svc-count" aria-hidden="true"><span id="svcCount">01 / 05</span><span class="svc-bar"><i id="svcBar"></i></span></div></div>
       </div>
       <div class="svc-grid">
         <ol class="svc-list">
@@ -352,6 +369,7 @@ footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
         </div>
       </div>
     </div>
+    </div></div>
   </section>
 
   <!-- DRAFT COPY: the process and roadmap below are starting points. Confirm or replace with the client's real approach. -->
@@ -457,8 +475,18 @@ footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
     });
     layers.forEach(function (l, k) { l.classList.toggle('on', k === i); });
   }
-  items.forEach(function (it, k) { it.querySelector('button').addEventListener('click', function () { show(k); }); });
-  document.querySelectorAll('[data-svc]').forEach(function (a) { a.addEventListener('click', function () { show(+a.getAttribute('data-svc')); }); });
+  var track = document.getElementById('track'), cnt = document.getElementById('svcCount'), bar = document.getElementById('svcBar');
+  var mq = window.matchMedia('(min-width: 901px)');
+  var pinned = function () { return mq.matches && !reduce; };
+  function stopY(k) { var span = Math.max(1, track.offsetHeight - window.innerHeight); return track.getBoundingClientRect().top + window.scrollY + span * k / (items.length - 1); }
+  items.forEach(function (it, k) { it.querySelector('button').addEventListener('click', function () { if (pinned()) window.scrollTo({ top: stopY(k), behavior: 'smooth' }); else show(k); }); });
+  document.querySelectorAll('[data-svc]').forEach(function (a) { a.addEventListener('click', function (e) { var k = +a.getAttribute('data-svc'); if (pinned()) { e.preventDefault(); window.scrollTo({ top: stopY(k), behavior: 'smooth' }); } else show(k); }); });
+  function svcScroll() {
+    if (!pinned()) return;
+    var span = Math.max(1, track.offsetHeight - window.innerHeight), p = clamp(-track.getBoundingClientRect().top / span, 0, 1);
+    var i = Math.round(p * (items.length - 1)); show(i);
+    cnt.textContent = '0' + (i + 1) + ' / 0' + items.length; bar.style.transform = 'scaleX(' + (0.06 + 0.94 * p) + ')';
+  }
 
   /* Nav highlight and progress: plain scrolling, nothing is hijacked */
   var nav = document.getElementById('nav'), prog = document.getElementById('prog');
@@ -470,6 +498,7 @@ footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
     var y = window.scrollY, vh = window.innerHeight, probe = vh * 0.4, s = '';
     secs.forEach(function (el) { if (el.getBoundingClientRect().top <= probe) s = el.id; });
     if (s !== spyCur) { spyCur = s; spies.forEach(function (a) { if (a.getAttribute('data-spy') === s) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); }); }
+    svcScroll();
     var max = document.documentElement.scrollHeight - vh;
     prog.style.transform = 'scaleX(' + clamp(y / Math.max(1, max), 0, 1) + ')';
   }

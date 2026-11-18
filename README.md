@@ -40,3 +40,5 @@ CSS variables at the top of `index.html` (`--black`, `--foam`, `--latte`, `--mer
 - Enquiry form replaced with Email / WhatsApp / Call buttons. Set EMAIL, PHONE, WHATSAPP at the top of the script (currently placeholders).
 - New Approach section (process + roadmap) is DRAFT copy to confirm with the client.
 - New illustrated service art; improved service copy; garbled lettering retouched out of the hero still.
+
+- Services scroll-driven again (pinned on desktop, plain 1:1 scrolling, step counter; tap-to-open on mobile).
