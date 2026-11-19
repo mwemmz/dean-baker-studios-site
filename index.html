@@ -140,7 +140,7 @@ p{font-size:var(--fs-b)}
 .head{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:clamp(28px,4.5vh,52px)}
 .head p{max-width:40ch;color:var(--grey)}
 #services h2{color:var(--merlot)}
-.svc-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(24px,4vw,64px);align-items:start}
+.svc-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(24px,4vw,64px);align-items:start}
 .svc-list{list-style:none;padding:0;display:grid;gap:clamp(4px,1vh,10px)}
 .svc-item{border-radius:var(--r-m);transition:background .3s var(--ease),color .3s var(--ease),box-shadow .3s var(--ease)}
 .svc-item>button{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:clamp(14px,1.6vw,22px);width:100%;padding:clamp(9px,1.7vh,18px) clamp(16px,1.6vw,24px);cursor:pointer;
@@ -163,7 +163,7 @@ p{font-size:var(--fs-b)}
 .svc-item.on .svc-more{grid-template-rows:1fr}
 .svc-more p{padding:0 clamp(16px,1.6vw,24px) clamp(12px,2vh,22px) calc(clamp(16px,1.6vw,24px) + 2.1ch + clamp(14px,1.6vw,22px));color:var(--on-dark-2);max-width:54ch}
 .item-fig{display:none}
-.stage{position:relative;aspect-ratio:4/5;height:min(calc(100vh - var(--nav) - 150px),560px);max-height:62vh;width:auto;justify-self:end;border-radius:var(--r-l);overflow:hidden;background:var(--merlot);box-shadow:0 24px 60px rgba(52,13,26,.22)}
+.stage{position:relative;aspect-ratio:4/3;width:100%;align-self:center;border-radius:var(--r-l);overflow:hidden;background:var(--merlot);box-shadow:0 24px 60px rgba(52,13,26,.22)}
 .layer{position:absolute;inset:0;opacity:0;transform:scale(1.05);transition:opacity .6s var(--ease),transform .9s var(--ease)}
 .layer.on{opacity:1;transform:none}
 .layer img{width:100%;height:100%;object-fit:cover}
@@ -355,11 +355,11 @@ footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
               <div class="svc-more"><div><div class="item-fig"><img src="img/publishing.webp" alt="" loading="lazy"></div><p>Books and anthologies that carry our stories onto the page, from first draft to print.</p></div></div></li>
         </ol>
         <div class="stage" id="stage" aria-hidden="true">
-          <div class="layer on"><img src="img/digital.webp" style="object-position:46% 50%" alt=""><span class="chip">Digital media</span></div>
-          <div class="layer"><img src="img/film.webp" style="object-position:72% 50%" alt="" loading="lazy"><span class="chip">Film</span></div>
-          <div class="layer"><img src="img/television.webp" style="object-position:42% 50%" alt="" loading="lazy"><span class="chip">Television</span></div>
-          <div class="layer"><img src="img/audio.webp" style="object-position:72% 50%" alt="" loading="lazy"><span class="chip">Audio</span></div>
-          <div class="layer"><img src="img/publishing.webp" style="object-position:42% 50%" alt="" loading="lazy"><span class="chip">Publishing</span></div>
+          <div class="layer on"><img src="img/digital.webp" style="object-position:50% 50%" alt=""><span class="chip">Digital media</span></div>
+          <div class="layer"><img src="img/film.webp" style="object-position:50% 50%" alt="" loading="lazy"><span class="chip">Film</span></div>
+          <div class="layer"><img src="img/television.webp" style="object-position:50% 50%" alt="" loading="lazy"><span class="chip">Television</span></div>
+          <div class="layer"><img src="img/audio.webp" style="object-position:50% 50%" alt="" loading="lazy"><span class="chip">Audio</span></div>
+          <div class="layer"><img src="img/publishing.webp" style="object-position:50% 50%" alt="" loading="lazy"><span class="chip">Publishing</span></div>
         </div>
       </div>
     </div>
