@@ -90,7 +90,7 @@ p{font-size:var(--fs-b)}
 .sec-in{padding-bottom:var(--r-l)}
 
 /* About */
-#about{background:#F0E5DE;color:var(--merlot);z-index:2;box-shadow:0 -14px 40px rgba(52,13,26,.10);padding:clamp(72px,11vh,120px) 0 calc(clamp(72px,11vh,120px) + var(--r-l))}
+#about{background:var(--foam);color:var(--merlot);z-index:2;box-shadow:0 -14px 40px rgba(52,13,26,.10);padding:clamp(72px,11vh,120px) 0 calc(clamp(72px,11vh,120px) + var(--r-l))}
 .about-head{display:flex;align-items:center;justify-content:space-between;gap:32px;margin-bottom:clamp(32px,5vh,56px)}
 .fmt-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
 .fmt{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;background:rgba(52,13,26,.07);color:var(--merlot);box-shadow:inset 0 0 0 1px rgba(52,13,26,.14);
@@ -109,20 +109,20 @@ p{font-size:var(--fs-b)}
 .c-vision{background:var(--merlot);color:var(--on-dark)}
 .c-vision h4{color:var(--latte)}
 .c-vision .badge{background:rgba(246,243,232,.12);color:var(--foam)}
-.c-mission{background:var(--latte);color:var(--ink)}
-.c-mission h4{color:var(--merlot)}
-.c-mission .badge{background:var(--merlot);color:var(--foam)}
-.c-about{grid-column:1/-1;background:#fff;color:var(--merlot);align-items:center;box-shadow:inset 0 0 0 1px rgba(52,13,26,.10)}
-.c-about h4{color:var(--grey)}
+.c-mission{background:var(--merlot);color:var(--on-dark)}
+.c-mission h4{color:var(--latte)}
+.c-mission .badge{background:rgba(246,243,232,.12);color:var(--foam)}
+.c-about{grid-column:1/-1;background:transparent;color:var(--merlot);align-items:center;box-shadow:inset 0 0 0 2px var(--merlot)}
+.c-about h4{color:var(--merlot);opacity:.7}
 .c-about h3{max-width:46ch}
 .c-about .badge{background:var(--merlot);color:var(--foam)}
 .pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
 .pill{border-radius:999px;padding:7px 14px;font-size:var(--fs-l);font-weight:600;letter-spacing:.06em;background:rgba(52,13,26,.09);color:var(--merlot)}
 .about-side{display:flex;align-items:center;gap:14px}
-.about-side .badge+.badge{background:var(--latte);color:var(--merlot)}
+
 
 /* Services */
-#services{background:var(--foam);z-index:3}
+#services{background:var(--foam);z-index:3;box-shadow:0 -14px 40px rgba(52,13,26,.08)}
 .svc-track{position:relative;height:250vh;border-radius:var(--r-l) var(--r-l) 0 0}
 .svc-sticky{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center;padding:calc(var(--nav) + 6px) 0 18px}
 .svc-sticky>.wrap{width:100%}
