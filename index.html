@@ -102,14 +102,48 @@ p{font-size:var(--fs-b)}
 .fmt-wrap{display:flex;flex-direction:column;align-items:flex-start}
 .cards{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2vw,24px)}
 .card{position:relative;border-radius:var(--r-l);padding:clamp(24px,2.6vw,40px);display:flex;justify-content:space-between;gap:20px;align-items:flex-start;
-  transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+  overflow:hidden;outline-offset:4px}
+.card>*:not(.fx){position:relative;z-index:1}
 .card h4{margin-bottom:14px}
 .badge{flex:none;width:72px;height:72px;border-radius:22px;display:grid;place-items:center;transition:transform .5s var(--ease)}
 .badge .ico{width:32px;height:32px}
-@media (hover:hover) and (pointer:fine){
-  .card:hover{transform:translateY(-6px);box-shadow:0 22px 50px rgba(52,13,26,.22)}
-  .c-about:hover{box-shadow:inset 0 0 0 2px var(--merlot),0 22px 50px rgba(52,13,26,.22)}
-}
+/* Centre stage: the active card comes forward, the others recede */
+.js .card.rise.in{transition:opacity .5s var(--ease),transform .7s var(--ease),box-shadow .6s var(--ease),filter .6s var(--ease);transition-delay:var(--d,0s)}
+.js .card.rise.settled{transition-delay:0s}
+.cards.has-active .card:not(.is-active){transform:scale(.965);opacity:.5;filter:saturate(.6)}
+.js .card.rise.in.is-active{transform:scale(1.025);box-shadow:0 26px 60px rgba(52,13,26,.28)}
+.js .card.c-about.rise.in.is-active{box-shadow:inset 0 0 0 2px var(--merlot),0 26px 60px rgba(52,13,26,.22)}
+.card:focus-visible{outline:3px solid var(--latte)}
+.fx{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:inherit}
+.fx svg{position:absolute;right:0;top:0;width:100%;height:100%;overflow:hidden}
+.fx *{transform-box:view-box;transform-origin:75% 75%}
+.fx svg *{fill:none;stroke:var(--latte);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+/* Vision: the horizon opens and rings spread outward */
+.v-glow{fill:url(#vGlow)!important;stroke:none!important;opacity:.35;transform:scale(.55);transition:transform 1.4s var(--ease),opacity 1s}
+.v-hz{opacity:.45;transform:scaleX(.3);transition:transform 1.2s var(--ease),opacity .8s}
+.v-arc{opacity:.14;transition:opacity .6s}
+.is-active .v-glow{transform:scale(1.15);opacity:1}
+.is-active .v-hz{transform:scaleX(1);opacity:.8}
+.is-active .v-arc{animation:ripple 3.6s var(--ease) infinite}
+.is-active .v-arc:nth-of-type(3){animation-delay:.9s}.is-active .v-arc:nth-of-type(4){animation-delay:1.8s}
+@keyframes ripple{0%{transform:scale(.4);opacity:0}25%{opacity:.7}100%{transform:scale(1.25);opacity:0}}
+/* Mission: milestones light up, then the flag is planted */
+.m-path{stroke-dasharray:6 9;opacity:.4}
+.m-dot{fill:var(--latte)!important;stroke:none!important;opacity:.3;transform:scale(.6);transform-origin:center;transform-box:fill-box;transition:transform .5s var(--ease),opacity .5s}
+.m-pole{transform-origin:350px 150px;transform:scaleY(.12);opacity:.35;transition:transform .8s var(--ease) .75s,opacity .5s .75s}
+.m-flag{fill:var(--latte)!important;fill-opacity:.55;transform-origin:350px 60px;transform:scaleX(0);transition:transform .7s var(--ease) 1.3s}
+.is-active .m-dot{transform:scale(1);opacity:.9}
+.is-active .m-dot:nth-of-type(2){transition-delay:.15s}.is-active .m-dot:nth-of-type(3){transition-delay:.3s}.is-active .m-dot:nth-of-type(4){transition-delay:.45s}
+.is-active .m-pole{transform:scaleY(1);opacity:.85}
+.is-active .m-flag{transform:scaleX(1)}
+/* About: five formats drift together and line up */
+.fx-about svg{width:52%}
+.fx-about *{transform-origin:center;transform-box:fill-box}
+.fx-about svg *{stroke:var(--merlot)}
+.a-el{opacity:.28;transform:translate(var(--x),var(--y)) rotate(var(--r));transition:transform 1.3s var(--ease),opacity .8s}
+.a-line{opacity:0;stroke-dasharray:340;stroke-dashoffset:340;transition:stroke-dashoffset 1.4s var(--ease) .3s,opacity .6s}
+.is-active .a-el{transform:none;opacity:.6}
+.is-active .a-line{opacity:.4;stroke-dashoffset:0}
 .c-vision{background:var(--merlot);color:var(--on-dark)}
 .c-vision h4{color:var(--latte)}
 .c-vision .badge{background:rgba(246,243,232,.12);color:var(--foam)}
@@ -135,7 +169,7 @@ p{font-size:var(--fs-b)}
 .svc-count{display:flex;align-items:center;gap:14px;font-size:var(--fs-l);font-weight:700;letter-spacing:.12em;color:var(--merlot);font-variant-numeric:tabular-nums}
 .svc-bar{flex:1;height:4px;border-radius:4px;background:rgba(52,13,26,.14);overflow:hidden}
 .svc-bar i{display:block;height:100%;background:var(--merlot);border-radius:4px;transform-origin:0 50%;transform:scaleX(.2)}
-.m-only{display:none}
+.layer .cap{display:none}
 @media (max-height:700px){#services .head .svc-meta p{display:none}}
 .head{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:clamp(28px,4.5vh,52px)}
 .head p{max-width:40ch;color:var(--grey)}
@@ -170,21 +204,39 @@ p{font-size:var(--fs-b)}
 .chip{position:absolute;left:16px;bottom:16px;border-radius:999px;padding:8px 16px;background:rgba(246,243,232,.94);color:var(--merlot);font-size:var(--fs-l);font-weight:700;letter-spacing:.1em;text-transform:uppercase}
 
 /* Approach */
-#approach{background:#ECE4D3;color:var(--merlot);z-index:4;padding:clamp(72px,11vh,120px) 0 calc(clamp(72px,11vh,120px) + var(--r-l))}
+#approach{--ab:#ECE4D3;--acc:#340D1A;background:var(--ab);transition:background-color .8s var(--ease);color:var(--merlot);z-index:4;padding:clamp(72px,11vh,120px) 0 calc(clamp(72px,11vh,120px) + var(--r-l))}
 #approach .head p{color:#5B4A47}
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,1.6vw,20px)}
 .step{background:var(--foam);border-radius:var(--r-l);padding:clamp(20px,2vw,28px);transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
 .step .num{display:grid;place-items:center;width:48px;height:48px;border-radius:16px;background:var(--merlot);color:var(--foam);font-size:var(--fs-t);font-weight:700;margin-bottom:18px}
 .step h3{font-weight:700;margin-bottom:8px}
 .step p{color:var(--grey)}
-@media (hover:hover) and (pointer:fine){.step:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(52,13,26,.16)}}
-.road{margin-top:clamp(16px,2vw,24px);border-radius:var(--r-l);background:var(--merlot);color:var(--on-dark);padding:clamp(24px,3vw,40px)}
-.road>h4{color:var(--latte);margin-bottom:20px}
-.road-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.4vw,32px)}
-.stage-col{position:relative;padding-top:22px;border-top:2px solid rgba(246,243,232,.22)}
-.stage-col::before{content:"";position:absolute;top:-7px;left:0;width:12px;height:12px;border-radius:50%;background:var(--latte)}
-.stage-col h4{color:var(--latte);margin-bottom:8px}
-.stage-col p{color:var(--on-dark-2)}
+.js .step.rise{transition:opacity .8s var(--ease),transform .6s var(--ease),background-color .6s var(--ease),color .6s var(--ease),box-shadow .6s var(--ease);transition-delay:var(--d,0s)}
+.js .rise.settled{transition-delay:0s}
+.step .num,.step p{transition:background-color .6s var(--ease),color .6s var(--ease)}
+.js .step.rise.in.is-active{background:var(--acc);color:var(--foam);transform:translateY(-6px);box-shadow:0 22px 50px rgba(52,13,26,.24)}
+.step.is-active p{color:var(--on-dark-2)}
+.step.is-active .num{background:var(--foam);color:var(--acc)}
+.road{margin-top:clamp(16px,2vw,24px);border-radius:var(--r-l);background:var(--merlot);color:var(--on-dark);padding:clamp(24px,3vw,40px);overflow:hidden}
+.road>h4{color:var(--latte);margin-bottom:12px}
+/* Roadmap: one continuous path behind the cards. Milestones sit at roughly 0%, 25% and 70% of its length. */
+.road-track{position:relative;height:620px}
+.road-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#roadBase{fill:none;stroke:rgba(246,243,232,.2);stroke-width:2;stroke-dasharray:2 9;stroke-linecap:round}
+#roadDraw{fill:none;stroke:var(--latte);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.r-dot .core{fill:var(--merlot-2);stroke:rgba(246,243,232,.45);stroke-width:2;transition:fill .5s var(--ease),stroke .5s}
+.r-dot .ring{fill:none;stroke:var(--latte);stroke-width:2;opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(.6);transition:opacity .5s,transform .7s var(--ease)}
+.r-dot.on .core{fill:var(--latte);stroke:var(--foam)}
+.r-dot.on .ring{opacity:.7;transform:scale(1)}
+#roadHead{fill:var(--foam);filter:drop-shadow(0 0 8px rgba(181,163,145,.9))}
+.mile{position:absolute;width:26%;padding:20px 22px;border-radius:var(--r-m);background:var(--merlot-2);box-shadow:inset 0 0 0 1px rgba(246,243,232,.16);
+  transition:background-color .6s var(--ease),color .6s var(--ease),box-shadow .6s var(--ease),transform .6s var(--ease)}
+.mile h4{color:var(--latte);margin-bottom:8px;transition:color .6s var(--ease)}
+.mile p{color:var(--on-dark-2);transition:color .6s var(--ease)}
+.mile.is-active{background:var(--foam);color:var(--merlot);transform:translateY(-4px);box-shadow:0 20px 44px rgba(0,0,0,.35)}
+.mile.is-active h4{color:var(--plum)}.mile.is-active p{color:var(--merlot)}
+.road-more{position:absolute;right:0;bottom:0;color:var(--latte);opacity:.7;font-size:var(--fs-l);font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+@media (max-width:899px){.mile{width:auto}}
 
 /* Contact */
 #contact{z-index:5;color:var(--on-dark);min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:calc(var(--nav) + 40px) 0 calc(var(--r-l) + 56px);
@@ -192,22 +244,21 @@ p{font-size:var(--fs-b)}
    radial-gradient(900px 620px at 88% 8%,rgba(139,58,104,.55),transparent 62%),
    radial-gradient(900px 640px at 6% 104%,rgba(112,48,88,.6),transparent 62%),
    linear-gradient(165deg,#4C1B33 0%,#3A1224 52%,#42172D 100%)}
-.contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(28px,5vw,80px);align-items:center;width:100%}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,80px);align-items:center;width:100%}
 .contact-grid>*,.svc-grid>*,.head>*{min-width:0}
 .box h3{overflow-wrap:break-word}
 .contact-grid h2 strong{color:var(--latte)}
 .contact-intro{margin:20px 0 28px;max-width:46ch;color:var(--on-dark-2)}
 .contact-actions{display:flex;flex-wrap:wrap;gap:12px}
-.info{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
-.box{display:flex;align-items:center;gap:20px;padding:clamp(16px,1.8vw,22px) clamp(18px,2vw,26px);border-radius:var(--r-l);background:rgba(246,243,232,.09);box-shadow:inset 0 0 0 1px rgba(246,243,232,.2);
-  text-decoration:none;color:var(--on-dark);transition:transform .35s var(--ease),background .25s,box-shadow .25s}
-.box .badge{width:56px;height:56px;border-radius:18px;background:rgba(246,243,232,.14);color:var(--foam)}
-.box .badge .ico{width:26px;height:26px}
-.box>span:nth-child(2){flex:1;min-width:0}
-.box h4{color:var(--latte);margin-bottom:2px}
-.box h3{font-weight:600}
-.box .arrow{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.7;transition:transform .35s var(--ease),opacity .25s}
-@media (hover:hover) and (pointer:fine){a.box:hover{transform:translateY(-3px);background:rgba(246,243,232,.17);box-shadow:inset 0 0 0 2px var(--latte)}a.box:hover .arrow{opacity:1}}
+.cpills{display:flex;flex-wrap:nowrap;gap:clamp(8px,1vw,12px)}
+.cpill{flex:1 1 0;min-width:0;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 clamp(10px,1.4vw,20px);border-radius:999px;
+  background:rgba(246,243,232,.12);box-shadow:inset 0 0 0 1px rgba(246,243,232,.28);color:var(--on-dark);text-decoration:none;font-size:var(--fs-b);font-weight:600;white-space:nowrap;
+  transition:background .25s var(--ease),color .25s var(--ease),box-shadow .25s var(--ease),transform .25s var(--ease)}
+.cpill .ico{width:22px;height:22px}
+.cpill:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.cpill:hover{background:var(--foam);color:var(--merlot);box-shadow:inset 0 0 0 2px var(--latte)}}
+.loc{display:flex;align-items:center;gap:10px;margin-top:22px;color:var(--on-dark-2)}
+.loc .ico{width:20px;height:20px;color:var(--latte)}
 
 /* Footer */
 footer{position:relative;z-index:6;margin-top:calc(var(--r-l) * -1);border-radius:var(--r-l) var(--r-l) 0 0;background:#1A0C11;color:var(--on-dark);padding:clamp(48px,7vh,72px) 0 28px}
@@ -216,6 +267,10 @@ footer h4{color:var(--latte);margin-bottom:16px}
 footer ul{list-style:none;padding:0;display:grid;gap:10px}
 footer a{text-decoration:none;color:var(--on-dark-2);transition:color .2s}
 footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
+footer li>a,.foot-loc{display:inline-flex;align-items:center;gap:10px}
+footer a:hover span{text-decoration:underline;text-underline-offset:4px}
+footer a:hover{text-decoration:none}
+footer .ico{width:18px;height:18px;color:var(--latte)}
 .foot-share{all:unset;cursor:pointer;color:var(--on-dark-2);transition:color .2s}
 .foot-share:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
 .foot-share:focus-visible{outline:3px solid var(--latte);outline-offset:3px}
@@ -238,32 +293,35 @@ footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
   .nav{padding:0 8px 0 16px}
   .logo img{height:26px}
   .nav-links .ctl{padding:0 12px;min-height:40px;letter-spacing:.06em}
-  .hero img{object-position:28% 0}
-  @media (orientation:portrait){.hero{display:flex;flex-direction:column;height:auto;min-height:0;padding-bottom:calc(var(--r-l) + 8px)}.hero-copy{order:1;position:relative;left:auto;top:auto;padding:calc(var(--nav) + 24px) var(--pad) 28px}.hero img{order:2;position:relative;inset:auto;height:auto;aspect-ratio:16/9;object-fit:contain}.hero::after{display:none}}
+  .hero img{object-position:34% 50%}
+  .hero::after{background:linear-gradient(180deg,rgba(246,243,232,.86) 0%,rgba(246,243,232,.6) 34%,rgba(246,243,232,.12) 62%,rgba(246,243,232,0) 80%)}
+  .hero-copy{top:calc(var(--nav) + clamp(18px,6vh,56px));max-width:calc(100vw - 2 * var(--pad))}
   .about-head,.head{flex-direction:column;align-items:flex-start}
   .cards{grid-template-columns:1fr}
-  .svc-grid{grid-template-columns:1fr}
-  .stage{display:none}
-  .item-fig{display:block;margin:0 clamp(12px,3vw,18px) 14px;border-radius:var(--r-m);overflow:hidden;aspect-ratio:16/10}
-  .item-fig img{width:100%;height:100%;object-fit:cover}
-  .svc-more p{padding-left:clamp(16px,1.6vw,24px)}
-  .steps{grid-template-columns:1fr 1fr}
-  .road-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:minmax(0,1fr)}
   .contact-grid{grid-template-columns:minmax(0,1fr)}
-  .svc-grid{grid-template-columns:minmax(0,1fr)}
-  .svc-track{height:auto}
-  .svc-sticky{position:static;height:auto;display:block;padding:clamp(72px,11vh,120px) 0 calc(clamp(72px,11vh,120px) + var(--r-l))}
-  .svc-count,.d-only{display:none}
-  .m-only{display:inline}
+  /* Services stays pinned and scroll driven: list on top, photo below */
+  .svc-sticky{align-items:stretch;padding:calc(var(--nav) + 14px) 0 calc(var(--r-l) + 10px)}
+  .svc-sticky>.wrap{display:flex;flex-direction:column;height:100%}
+  #services .head{gap:8px;margin-bottom:12px}
+  .svc-grid{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);flex:1;min-height:0;gap:12px}
+  .svc-more{display:none}
+  .svc-item>button{padding:8px 16px;font-size:17px}
+  .stage{aspect-ratio:auto;height:100%;min-height:140px}
+  .layer::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(52,13,26,0) 22%,rgba(52,13,26,.92) 100%)}
+  .layer .cap{display:block;position:absolute;z-index:1;left:16px;right:16px;bottom:62px;color:var(--foam);font-size:var(--fs-b);line-height:1.5}
+  .layer .chip{z-index:1}
   #services .head .svc-meta p{display:block}
-  .svc-grid>.stage{display:none}
+  @media (max-height:780px){#services .head .svc-meta p{display:none}}
+  @media (max-height:700px){.layer .cap{display:none}}
   #contact{min-height:0}
   .foot-grid{grid-template-columns:1fr 1fr}
   .foot-grid>div:last-child{grid-column:1/-1}
+  .foot-contact{display:none}
 }
-@media (max-width:560px){
-  .steps{grid-template-columns:1fr}
-}
+@media (hover:none){.cards{grid-template-columns:minmax(0,1fr)}.steps{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:640px){.cpills{gap:6px}.cpill{padding:0 8px;gap:6px}.cpill .ico{width:18px;height:18px}}
+@media (max-width:360px){.cpill .ico{display:none}}
 @media (max-width:480px){
   .nav-links .ctl{padding:0 9px;letter-spacing:.03em}
   .nav-links .ctl.opt{display:none}
@@ -323,9 +381,9 @@ footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
         <div class="fmt-wrap rise" style="--d:.1s"><p class="fmt-lead">Jump to a format</p><nav class="fmt-row" aria-label="Formats"><a class="fmt" href="#services" data-svc="0"><svg class="ico" aria-hidden="true"><use href="#i-digital"/></svg><span>Digital media</span></a><a class="fmt" href="#services" data-svc="1"><svg class="ico" aria-hidden="true"><use href="#i-film"/></svg><span>Film</span></a><a class="fmt" href="#services" data-svc="2"><svg class="ico" aria-hidden="true"><use href="#i-tv"/></svg><span>Television</span></a><a class="fmt" href="#services" data-svc="3"><svg class="ico" aria-hidden="true"><use href="#i-audio"/></svg><span>Audio</span></a><a class="fmt" href="#services" data-svc="4"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg><span>Publishing</span></a></nav></div>
       </div>
       <div class="cards">
-        <article class="card c-vision rise"><div><h4>Vision</h4><h3>To create original work that shapes culture, inspires ideas, and reaches global audiences.</h3></div><span class="badge"><svg class="ico"><use href="#i-eye"/></svg></span></article>
-        <article class="card c-mission rise" style="--d:.1s"><div><h4>Mission</h4><h3>To redefine storytelling, driven by vision, craft, and an uncompromising standard.</h3></div><span class="badge"><svg class="ico"><use href="#i-flag"/></svg></span></article>
-        <article class="card c-about rise" style="--d:.15s"><div><h4>About</h4><h3>Dean Baker Studios is an independent production company. We develop and produce original content across digital media, film, television, audio and publishing, crafted with intention and built for global audiences.</h3></div>
+        <article class="card c-vision rise" tabindex="0"><span class="fx" aria-hidden="true"><svg viewBox="0 0 400 200" preserveAspectRatio="xMaxYMax slice"><defs><radialGradient id="vGlow" cx="50%" cy="100%" r="70%"><stop offset="0" stop-color="#B5A391" stop-opacity=".5"/><stop offset="1" stop-color="#B5A391" stop-opacity="0"/></radialGradient></defs><ellipse class="v-glow" cx="300" cy="150" rx="230" ry="120"/><line class="v-hz" x1="0" y1="150" x2="400" y2="150"/><path class="v-arc" d="M240 150A60 60 0 0 1 360 150"/><path class="v-arc" d="M200 150A100 100 0 0 1 400 150"/><path class="v-arc" d="M160 150A140 140 0 0 1 440 150"/></svg></span><div><h4>Vision</h4><h3>To create original work that shapes culture, inspires ideas, and reaches global audiences.</h3></div><span class="badge"><svg class="ico"><use href="#i-eye"/></svg></span></article>
+        <article class="card c-mission rise" style="--d:.1s" tabindex="0"><span class="fx" aria-hidden="true"><svg viewBox="0 0 400 200" preserveAspectRatio="xMaxYMax slice"><path class="m-path" d="M30 178C110 178 130 150 190 140S290 150 350 150"/><circle class="m-dot" cx="90" cy="172" r="7"/><circle class="m-dot" cx="180" cy="142" r="7"/><circle class="m-dot" cx="270" cy="148" r="7"/><circle class="m-dot" cx="350" cy="150" r="7"/><line class="m-pole" x1="350" y1="150" x2="350" y2="60"/><path class="m-flag" d="M350 60L392 74L350 90Z"/></svg></span><div><h4>Mission</h4><h3>To redefine storytelling, driven by vision, craft, and an uncompromising standard.</h3></div><span class="badge"><svg class="ico"><use href="#i-flag"/></svg></span></article>
+        <article class="card c-about rise" style="--d:.15s" tabindex="0"><span class="fx fx-about" aria-hidden="true"><svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice"><path class="a-line" d="M30 100H370"/><g class="a-el" style="--x:-30px;--y:-60px;--r:-24deg"><rect x="42" y="87" width="38" height="26" rx="5"/></g><g class="a-el" style="--x:20px;--y:56px;--r:50deg"><circle cx="128" cy="100" r="18"/><circle cx="128" cy="100" r="5"/></g><g class="a-el" style="--x:-18px;--y:-54px;--r:70deg"><path d="M192 84L218 100L192 116Z"/></g><g class="a-el" style="--x:26px;--y:58px;--r:-36deg"><path d="M258 112V88M270 118V82M282 112V88"/></g><g class="a-el" style="--x:-40px;--y:-50px;--r:30deg"><rect x="322" y="82" width="28" height="36" rx="3"/><path d="M332 90H342M332 100H342"/></g></svg></span><div><h4>About</h4><h3>Dean Baker Studios is an independent production company. We develop and produce original content across digital media, film, television, audio and publishing, crafted with intention and built for global audiences.</h3></div>
           <span class="about-side"><span class="badge"><svg class="ico"><use href="#i-spark"/></svg></span></span></article>
       </div>
     </div>
@@ -338,7 +396,7 @@ footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
     <div class="wrap">
       <div class="head">
         <h2 class="rise" id="svcH">Five formats, <strong>one standard.</strong></h2>
-        <div class="svc-meta rise" style="--d:.1s"><p><span class="d-only">Original content across five formats, developed and produced with the same care. Keep scrolling to move through them.</span><span class="m-only">Original content across five formats, developed and produced with the same care. Tap a format to see what it covers.</span></p><div class="svc-count" aria-hidden="true"><span id="svcCount">01 / 05</span><span class="svc-bar"><i id="svcBar"></i></span></div></div>
+        <div class="svc-meta rise" style="--d:.1s"><p>Original content across five formats, developed and produced with the same care and attention to detail.</p><div class="svc-count" aria-hidden="true"><span id="svcCount">01 / 05</span><span class="svc-bar"><i id="svcBar"></i></span></div></div>
       </div>
       <div class="svc-grid">
         <ol class="svc-list">
@@ -354,11 +412,11 @@ footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
               <div class="svc-more"><div><div class="item-fig"><img src="img/publishing.webp" alt="" loading="lazy"></div><p>Books and anthologies that carry our stories onto the page, from first draft to print.</p></div></div></li>
         </ol>
         <div class="stage" id="stage" aria-hidden="true">
-          <div class="layer on"><img src="img/digital.webp" style="object-position:50% 50%" alt=""><span class="chip">Digital media</span></div>
-          <div class="layer"><img src="img/film.webp" style="object-position:50% 50%" alt="" loading="lazy"><span class="chip">Film</span></div>
-          <div class="layer"><img src="img/television.webp" style="object-position:50% 50%" alt="" loading="lazy"><span class="chip">Television</span></div>
-          <div class="layer"><img src="img/audio.webp" style="object-position:50% 50%" alt="" loading="lazy"><span class="chip">Audio</span></div>
-          <div class="layer"><img src="img/publishing.webp" style="object-position:50% 50%" alt="" loading="lazy"><span class="chip">Publishing</span></div>
+          <div class="layer on"><img src="img/digital.webp" style="object-position:50% 50%" alt=""><p class="cap">Original series, short films and social-first content, produced for the screens audiences use every day.</p><span class="chip">Digital media</span></div>
+          <div class="layer"><img src="img/film.webp" style="object-position:50% 50%" alt="" loading="lazy"><p class="cap">Feature films and documentaries, developed for festivals, cinemas and video streaming platforms.</p><span class="chip">Film</span></div>
+          <div class="layer"><img src="img/television.webp" style="object-position:50% 50%" alt="" loading="lazy"><p class="cap">Series and specials written, produced and delivered to broadcasters and video streaming platforms.</p><span class="chip">Television</span></div>
+          <div class="layer"><img src="img/audio.webp" style="object-position:50% 50%" alt="" loading="lazy"><p class="cap">Podcasts, radio documentaries and sound design, recorded to be crisp, clear and impactful.</p><span class="chip">Audio</span></div>
+          <div class="layer"><img src="img/publishing.webp" style="object-position:50% 50%" alt="" loading="lazy"><p class="cap">Books and anthologies that carry our stories onto the page, from first draft to print.</p><span class="chip">Publishing</span></div>
         </div>
       </div>
     </div>
@@ -380,10 +438,12 @@ footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
       </div>
       <div class="road rise">
         <h4>Our roadmap</h4>
-        <div class="road-grid">
-          <div class="stage-col"><h4>Now</h4><p>Building an original slate across digital media, film and audio.</p></div>
-          <div class="stage-col"><h4>Next</h4><p>Partnerships and co-productions with funders, broadcasters and video streaming platforms.</p></div>
-          <div class="stage-col"><h4>Later</h4><p>Publishing and distributing our stories to audiences around the world.</p></div>
+        <!-- FOUNDATION: each milestone card sits on one continuous path. Later this can grow into productions, behind-the-scenes, trailers, testimonials and finished work. -->
+        <div class="road-track" id="roadTrack">
+          <svg class="road-svg" id="roadSvg" aria-hidden="true"><path id="roadBase"/><path id="roadDraw"/><g id="roadDots"></g><circle id="roadHead" r="6"/></svg>
+          <article class="mile" data-i="0"><h4>Now</h4><p>Building an original slate across digital media, film and audio.</p></article>
+          <article class="mile" data-i="1"><h4>Next</h4><p>Partnerships and co-productions with funders, broadcasters and video streaming platforms.</p></article>
+          <article class="mile" data-i="2"><h4>Later</h4><p>Publishing and distributing our stories to audiences around the world.</p></article>
         </div>
       </div>
     </div>
@@ -399,12 +459,14 @@ footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
             <button class="ctl ghost" type="button" data-share><svg class="ico"><use href="#i-share"/></svg>Share this page</button>
           </div>
         </div>
-        <div class="info">
+        <div class="cta">
           <!-- PLACEHOLDERS: set EMAIL, PHONE and WHATSAPP in the script below once the studio confirms them. -->
-          <a class="box rise" id="mailBox" href="#" style="--d:.05s"><span class="badge"><svg class="ico"><use href="#i-mail"/></svg></span><span><h4>Email</h4><h3 id="mailTxt"></h3></span><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a class="box wa rise" id="waBox" href="#" target="_blank" rel="noopener" style="--d:.12s"><span class="badge"><svg class="ico"><use href="#i-wa"/></svg></span><span><h4>WhatsApp</h4><h3>Chat with us</h3></span><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a class="box rise" id="callBox" href="#" style="--d:.19s"><span class="badge"><svg class="ico"><use href="#i-phone"/></svg></span><span><h4>Call</h4><h3 id="callTxt"></h3></span><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <div class="box rise" style="--d:.26s"><span class="badge"><svg class="ico"><use href="#i-pin"/></svg></span><span><h4>Based in</h4><h3>Lusaka, Zambia</h3></span></div>
+          <div class="cpills rise" style="--d:.1s">
+            <a class="cpill" id="mailBox" href="#"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg><span>Email</span></a>
+            <a class="cpill" id="waBox" href="#" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg><span>WhatsApp</span></a>
+            <a class="cpill" id="callBox" href="#"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg><span>Call</span></a>
+          </div>
+          <p class="loc rise" style="--d:.18s"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Based in Lusaka, Zambia</p>
         </div>
       </div>
     </div>
@@ -419,7 +481,7 @@ footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
       <ul><li><a href="#services" data-svc="0">Digital media</a></li><li><a href="#services" data-svc="1">Film</a></li><li><a href="#services" data-svc="2">Television</a></li><li><a href="#services" data-svc="3">Audio</a></li><li><a href="#services" data-svc="4">Publishing</a></li></ul></div>
     <div><h4>Contact</h4>
       <!-- Social links go here once the client supplies them. -->
-      <ul><li><a id="footMail" href="#"></a></li><li><a id="footWa" href="#" target="_blank" rel="noopener">WhatsApp</a></li><li><a id="footCall" href="#"></a></li><li>Lusaka, Zambia</li><li><button class="foot-share" type="button" data-share>Share this page</button></li></ul></div>
+      <ul><li class="foot-contact"><a id="footMail" href="#"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg><span id="footMailTxt"></span></a></li><li class="foot-contact"><a id="footWa" href="#" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg><span id="footWaTxt"></span></a></li><li class="foot-contact"><a id="footCall" href="#"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg><span id="footCallTxt"></span></a></li><li class="foot-loc"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Lusaka, Zambia</li><li><button class="foot-share" type="button" data-share>Share this page</button></li></ul></div>
   </div>
   <div class="wrap foot-bar">
     <div class="brand"><img src="assets/logo-white.svg" alt="Dean Baker Studios" width="109" height="30"><span>&copy; 2026 Dean Baker Studios. All rights reserved.</span></div>
@@ -443,18 +505,19 @@ footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
   var tel = 'tel:' + PHONE.replace(/[^+\d]/g, '');
   var wa = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent('Hello Dean Baker Studios, I found you through your website.');
   function set(id, href, text) { var e = document.getElementById(id); if (!e) return; e.href = href; if (text) e.textContent = text; }
-  set('mailBox', 'mailto:' + EMAIL); set('waBox', wa); set('callBox', tel);
-  document.getElementById('mailTxt').textContent = EMAIL; document.getElementById('callTxt').textContent = PHONE;
-  set('footMail', 'mailto:' + EMAIL, EMAIL); set('footWa', wa); set('footCall', tel, PHONE);
+  var mail = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent('Enquiry from the Dean Baker Studios website') + '&body=' + encodeURIComponent('Hello Dean Baker Studios,\n\nI found you through your website and would like to talk about a possible collaboration.\n\nKind regards,');
+  set('mailBox', mail); set('waBox', wa); set('callBox', tel);
+  set('footMail', mail); set('footWa', wa); set('footCall', tel);
+  document.getElementById('footMailTxt').textContent = EMAIL; document.getElementById('footWaTxt').textContent = PHONE; document.getElementById('footCallTxt').textContent = PHONE;
 
   /* Reveal */
   var rises = document.querySelectorAll('.rise');
   if ('IntersectionObserver' in window && !reduce) {
     var io = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      es.forEach(function (e) { if (e.isIntersecting) { var t = e.target; t.classList.add('in'); io.unobserve(t); setTimeout(function () { t.classList.add('settled'); }, 1700); } });
     }, { threshold: 0.12, rootMargin: '0px 0px -5% 0px' });
     rises.forEach(function (el) { io.observe(el); });
-  } else { rises.forEach(function (el) { el.classList.add('in'); }); }
+  } else { rises.forEach(function (el) { el.classList.add('in', 'settled'); }); }
 
   /* Services: select a format */
   var items = [].slice.call(document.querySelectorAll('.svc-item'));
@@ -469,16 +532,118 @@ footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
     layers.forEach(function (l, k) { l.classList.toggle('on', k === i); });
   }
   var track = document.getElementById('track'), cnt = document.getElementById('svcCount'), bar = document.getElementById('svcBar');
-  var mq = window.matchMedia('(min-width: 901px)');
-  var pinned = function () { return mq.matches && !reduce; };
+  var pinned = function () { return true; };
+  var sbeh = reduce ? 'auto' : 'smooth';
   function stopY(k) { var span = Math.max(1, track.offsetHeight - window.innerHeight); return track.getBoundingClientRect().top + window.scrollY + span * (k + 0.5) / items.length; }
-  items.forEach(function (it, k) { it.querySelector('button').addEventListener('click', function () { if (pinned()) window.scrollTo({ top: stopY(k), behavior: 'smooth' }); else show(k); }); });
-  document.querySelectorAll('[data-svc]').forEach(function (a) { a.addEventListener('click', function (e) { var k = +a.getAttribute('data-svc'); if (pinned()) { e.preventDefault(); window.scrollTo({ top: stopY(k), behavior: 'smooth' }); } else show(k); }); });
+  items.forEach(function (it, k) { it.querySelector('button').addEventListener('click', function () { if (pinned()) window.scrollTo({ top: stopY(k), behavior: sbeh }); else show(k); }); });
+  document.querySelectorAll('[data-svc]').forEach(function (a) { a.addEventListener('click', function (e) { var k = +a.getAttribute('data-svc'); if (pinned()) { e.preventDefault(); window.scrollTo({ top: stopY(k), behavior: sbeh }); } else show(k); }); });
   function svcScroll() {
     if (!pinned()) return;
     var span = Math.max(1, track.offsetHeight - window.innerHeight), p = clamp(-track.getBoundingClientRect().top / span, 0, 1);
     var i = Math.min(items.length - 1, Math.floor(p * items.length)); show(i);
     cnt.textContent = '0' + (i + 1) + ' / 0' + items.length; bar.style.transform = 'scaleX(' + ((i + 1) / items.length) + ')';
+  }
+
+
+  /* Cards: hover on desktop, scroll position on touch screens */
+  var fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+  var cardsEl = document.querySelector('.cards'), cards = [].slice.call(document.querySelectorAll('.card'));
+  function setCard(c) { cards.forEach(function (x) { x.classList.toggle('is-active', x === c); }); cardsEl.classList.toggle('has-active', !!c); }
+  cards.forEach(function (c) {
+    c.addEventListener('mouseenter', function () { if (fine.matches) setCard(c); });
+    c.addEventListener('mouseleave', function () { if (fine.matches) setCard(null); });
+    c.addEventListener('focus', function () { setCard(c); });
+    c.addEventListener('blur', function () { if (fine.matches) setCard(null); });
+  });
+  function nearest(list, lo, hi) {
+    var vh = window.innerHeight, best = null, bd = 1e9;
+    list.forEach(function (el) { var r = el.getBoundingClientRect(); if (r.bottom < vh * lo || r.top > vh * hi) return; var d = Math.abs((r.top + r.bottom) / 2 - vh * 0.5); if (d < bd) { bd = d; best = el; } });
+    return best;
+  }
+
+  /* How we work: the card at the reading position stays highlighted and the section colours follow it */
+  var steps = [].slice.call(document.querySelectorAll('.step')), appr = document.getElementById('approach');
+  var tones = [['#ECE4D3', '#340D1A'], ['#E7DAC9', '#4B2340'], ['#E3D3C5', '#5E1F36'], ['#DFD0C2', '#3B1B2E']];
+  var stepCur = -1;
+  function setStep(i) {
+    if (i === stepCur) return; stepCur = i;
+    steps.forEach(function (st, k) { st.classList.toggle('is-active', k === i); });
+    appr.style.setProperty('--ab', tones[i][0]); appr.style.setProperty('--acc', tones[i][1]);
+  }
+  steps.forEach(function (st, k) {
+    st.addEventListener('mouseenter', function () { if (fine.matches) setStep(k); });
+    st.addEventListener('focusin', function () { setStep(k); });
+  });
+  setStep(0);
+
+  /* Roadmap: one path behind the cards; milestones at about 0%, 25% and 70% of its length */
+  var rTrack = document.getElementById('roadTrack'), rSvg = document.getElementById('roadSvg');
+  var rBase = document.getElementById('roadBase'), rDraw = document.getElementById('roadDraw'), rDots = document.getElementById('roadDots'), rHead = document.getElementById('roadHead');
+  var miles = [].slice.call(document.querySelectorAll('.mile'));
+  var rLen = 1, rFr = [0, 0.25, 0.7], rDotEls = [], rHover = -1, rIdx = 0, rLast = -1;
+  function plen(a) { var t = 0; for (var i = 1; i < a.length; i++) t += Math.hypot(a[i].x - a[i - 1].x, a[i].y - a[i - 1].y); return t; }
+  function leg(a, b, A, n) {
+    var out = [], N = 40, dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || 1, nx = -dy / d, ny = dx / d;
+    for (var i = 0; i <= N; i++) { var u = i / N, w = Math.sin(Math.PI * u) * Math.sin(2 * Math.PI * n * u) * A; out.push({ x: a.x + dx * u + nx * w, y: a.y + dy * u + ny * w }); }
+    return out;
+  }
+  function fit(a, b, target, n, cap) {
+    var hi = cap, lo = 0;
+    if (plen(leg(a, b, hi, n)) < target) return leg(a, b, hi, n);
+    for (var k = 0; k < 24; k++) { var m = (lo + hi) / 2; if (plen(leg(a, b, m, n)) < target) lo = m; else hi = m; }
+    return leg(a, b, (lo + hi) / 2, n);
+  }
+  function buildRoad() {
+    var W = rTrack.clientWidth, vertical = W < 900, H;
+    H = vertical ? (W < 520 ? 880 : 700) : 620;
+    rTrack.style.height = H + 'px';
+    rSvg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    var K, cap, left, topOff;
+    if (vertical) { K = [{ x: 20, y: 0.04 * H }, { x: 20, y: 0.25 * H }, { x: 20, y: 0.70 * H }, { x: 20, y: H - 24 }]; cap = 16; left = 50; topOff = 14; }
+    else { K = [{ x: 26, y: 0.08 * H }, { x: 0.31 * W, y: 0.36 * H }, { x: 0.69 * W, y: 0.64 * H }, { x: W - 24, y: H - 40 }]; cap = H * 0.2; left = 18; topOff = 18; }
+    var d = [0, 1, 2].map(function (i) { return Math.hypot(K[i + 1].x - K[i].x, K[i + 1].y - K[i].y); });
+    var T = 1.06 * Math.max(d[0] / 0.25, d[1] / 0.45, d[2] / 0.30);
+    var legs = [fit(K[0], K[1], 0.25 * T, 1, cap), fit(K[1], K[2], 0.45 * T, 2, -cap > 0 ? cap : cap), fit(K[2], K[3], 0.30 * T, 1.5, cap)];
+    var pts = [], marks = [0];
+    legs.forEach(function (lp, i) { lp.forEach(function (pt, j) { if (i > 0 && j === 0) return; pts.push(pt); }); marks.push(plen(pts)); });
+    var dstr = 'M' + pts.map(function (q) { return q.x.toFixed(1) + ' ' + q.y.toFixed(1); }).join('L');
+    rBase.setAttribute('d', dstr); rDraw.setAttribute('d', dstr);
+    rLen = rDraw.getTotalLength(); rDraw.style.strokeDasharray = rLen;
+    rFr = [0, marks[1] / rLen, marks[2] / rLen];
+    rDots.innerHTML = ''; rDotEls = [];
+    for (var i = 0; i < 3; i++) {
+      var g = document.createElementNS('http://www.w3.org/2000/svg', 'g'); g.setAttribute('class', 'r-dot');
+      g.innerHTML = '<circle class="ring" cx="' + K[i].x + '" cy="' + K[i].y + '" r="16"/><circle class="core" cx="' + K[i].x + '" cy="' + K[i].y + '" r="8"/>';
+      rDots.appendChild(g); rDotEls.push(g);
+      var m = miles[i]; m.style.left = (K[i].x + left) + 'px'; m.style.top = (K[i].y - topOff) + 'px';
+      if (vertical) m.style.width = (W - K[i].x - left) + 'px'; else m.style.width = '';
+    }
+    rLast = -1; roadScroll();
+  }
+  function setMile(i) { miles.forEach(function (m, k) { m.classList.toggle('is-active', k === i); }); }
+  function roadScroll() {
+    if (!rTrack) return;
+    var r = rTrack.getBoundingClientRect(), vh = window.innerHeight;
+    var p = clamp((vh * 0.78 - r.top) / (r.height * 0.9), 0, 1);
+    rDraw.style.strokeDashoffset = rLen * (1 - p);
+    var pt = rDraw.getPointAtLength(rLen * p); rHead.setAttribute('cx', pt.x); rHead.setAttribute('cy', pt.y);
+    var idx = 0; rFr.forEach(function (f, k) { var on = p >= f && (k === 0 || p > 0); rDotEls[k].classList.toggle('on', on); if (on) idx = k; });
+    rIdx = idx; setMile(rHover >= 0 ? rHover : rIdx);
+  }
+  miles.forEach(function (m, k) {
+    m.addEventListener('mouseenter', function () { if (fine.matches) { rHover = k; setMile(k); } });
+    m.addEventListener('mouseleave', function () { rHover = -1; setMile(rIdx); });
+  });
+  buildRoad();
+  window.addEventListener('resize', buildRoad);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(buildRoad);
+
+  function focusScroll() {
+    if (!fine.matches) {
+      setCard(nearest(cards, 0.05, 0.95));
+      var st = nearest(steps, 0.1, 0.9); if (st) setStep(steps.indexOf(st));
+    }
+    roadScroll();
   }
 
   /* Nav highlight and progress: plain scrolling, nothing is hijacked */
@@ -491,7 +656,7 @@ footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
     var y = window.scrollY, vh = window.innerHeight, probe = vh * 0.4, s = '';
     secs.forEach(function (el) { if (el.getBoundingClientRect().top <= probe) s = el.id; });
     if (s !== spyCur) { spyCur = s; spies.forEach(function (a) { if (a.getAttribute('data-spy') === s) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); }); }
-    svcScroll();
+    svcScroll(); focusScroll();
     var max = document.documentElement.scrollHeight - vh;
     prog.style.transform = 'scaleX(' + clamp(y / Math.max(1, max), 0, 1) + ')';
   }

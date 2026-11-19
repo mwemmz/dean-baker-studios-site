@@ -44,3 +44,11 @@ CSS variables at the top of `index.html` (`--black`, `--foam`, `--latte`, `--mer
 - Services scroll-driven again (pinned on desktop, plain 1:1 scrolling, step counter; tap-to-open on mobile).
 - Equal scroll length per service; softer colour balance (About back to a light blush background, Merlot on cards/accents).
 - Service images are now real photos (img/*.webp, generated in Google Flow), replacing the illustration placeholders.
+
+## Round 5 (supervisor pointers)
+- Services text ends "...the same care and attention to detail."; Services now stays pinned and scroll-driven on phones and tablets too (list above, photo and caption below).
+- Mobile hero is full-bleed with nav, headline and supporting text overlaid.
+- How we work: the card at the reading position (scroll on touch, hover on desktop) stays highlighted; section background and accent shift with it.
+- Vision / Mission / About: active card takes centre stage, others recede; each has its own animation (horizon, flag planting, formats coming together).
+- Roadmap: one continuous path behind the cards, milestones at about 0%, 25% and 70%, drawn on scroll. Built as a foundation for richer content later.
+- Contact: pre-filled email (as with WhatsApp), single-row pills; footer shows icon + value and hides contacts on phones/tablets.
