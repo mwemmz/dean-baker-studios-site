@@ -90,12 +90,16 @@ p{font-size:var(--fs-b)}
 .sec-in{padding-bottom:var(--r-l)}
 
 /* About */
-#about{background:var(--foam);color:var(--merlot);z-index:2;box-shadow:0 -14px 40px rgba(52,13,26,.10);padding:clamp(72px,11vh,120px) 0 calc(clamp(72px,11vh,120px) + var(--r-l))}
-.about-head{display:flex;align-items:center;justify-content:space-between;gap:32px;margin-bottom:clamp(32px,5vh,56px)}
-.fmt-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
-.fmt{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;background:rgba(52,13,26,.07);color:var(--merlot);box-shadow:inset 0 0 0 1px rgba(52,13,26,.14);
-  transition:transform .35s var(--ease),background .25s,color .25s}
-@media (hover:hover) and (pointer:fine){.fmt:hover{background:var(--merlot);color:var(--foam);transform:translateY(-14px) rotate(-6deg)}}
+#about{background:#E9E5DB;color:var(--merlot);z-index:2;box-shadow:0 -14px 40px rgba(52,13,26,.10);padding:clamp(72px,11vh,120px) 0 calc(clamp(72px,11vh,120px) + var(--r-l))}
+.about-head{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(18px,3vh,28px);margin-bottom:clamp(32px,5vh,56px)}
+.fmt-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.fmt{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:8px 18px 8px 14px;border-radius:999px;text-decoration:none;white-space:nowrap;
+  background:rgba(52,13,26,.07);color:var(--merlot);box-shadow:inset 0 0 0 1px rgba(52,13,26,.14);font-size:var(--fs-l);font-weight:600;line-height:1.25;
+  transition:background .25s,color .25s,box-shadow .25s}
+.fmt .ico{width:20px;height:20px}
+@media (hover:hover) and (pointer:fine){.fmt:hover{background:var(--merlot);color:var(--foam);box-shadow:inset 0 0 0 1px var(--merlot)}}
+.fmt-lead{font-size:var(--fs-l);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--merlot);opacity:.7;margin-bottom:12px}
+.fmt-wrap{display:flex;flex-direction:column;align-items:flex-start}
 .cards{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2vw,24px)}
 .card{position:relative;border-radius:var(--r-l);padding:clamp(24px,2.6vw,40px);display:flex;justify-content:space-between;gap:20px;align-items:flex-start;
   transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
@@ -104,7 +108,6 @@ p{font-size:var(--fs-b)}
 .badge .ico{width:32px;height:32px}
 @media (hover:hover) and (pointer:fine){
   .card:hover{transform:translateY(-6px);box-shadow:0 22px 50px rgba(52,13,26,.22)}
-  .card:hover .badge{transform:rotate(-8deg) scale(1.08)}
 }
 .c-vision{background:var(--merlot);color:var(--on-dark)}
 .c-vision h4{color:var(--latte)}
@@ -149,7 +152,7 @@ p{font-size:var(--fs-b)}
 @media (hover:hover) and (pointer:fine){
   .svc-item:not(.on):hover{background:rgba(181,163,145,.32);box-shadow:inset 0 0 0 2px rgba(52,13,26,.22)}
   .svc-item:not(.on):hover .n{opacity:1}
-  .svc-item:not(.on):hover .go{transform:translateX(4px);background:var(--merlot);color:var(--foam)}
+  .svc-item:not(.on):hover .go{background:var(--merlot);color:var(--foam)}
 }
 .svc-item.on{background:var(--merlot);color:var(--foam)}
 .svc-item.on .n{color:var(--latte);opacity:1}
@@ -203,7 +206,7 @@ p{font-size:var(--fs-b)}
 .box h4{color:var(--latte);margin-bottom:2px}
 .box h3{font-weight:600}
 .box .arrow{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.7;transition:transform .35s var(--ease),opacity .25s}
-@media (hover:hover) and (pointer:fine){a.box:hover{transform:translateY(-3px);background:rgba(246,243,232,.17);box-shadow:inset 0 0 0 2px var(--latte)}a.box:hover .arrow{transform:translateX(5px);opacity:1}}
+@media (hover:hover) and (pointer:fine){a.box:hover{transform:translateY(-3px);background:rgba(246,243,232,.17);box-shadow:inset 0 0 0 2px var(--latte)}a.box:hover .arrow{opacity:1}}
 a.box.wa .badge{background:#E9F5EC;color:#0E5B2B}
 
 /* Footer */
@@ -238,7 +241,6 @@ footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
   .hero img{object-position:28% 0}
   @media (orientation:portrait){.hero{display:flex;flex-direction:column;height:auto;min-height:0;padding-bottom:calc(var(--r-l) + 8px)}.hero-copy{order:1;position:relative;left:auto;top:auto;padding:calc(var(--nav) + 24px) var(--pad) 28px}.hero img{order:2;position:relative;inset:auto;height:auto;aspect-ratio:16/9;object-fit:contain}.hero::after{display:none}}
   .about-head,.head{flex-direction:column;align-items:flex-start}
-  .fmt-row{justify-content:flex-start}
   .cards{grid-template-columns:1fr}
   .svc-grid{grid-template-columns:1fr}
   .stage{display:none}
@@ -267,7 +269,6 @@ footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
   .nav-links .ctl.opt{display:none}
   .badge{width:56px;height:56px;border-radius:18px}
   .badge .ico{width:26px;height:26px}
-  .fmt{width:48px;height:48px}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -319,19 +320,12 @@ footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
     <div class="wrap">
       <div class="about-head">
         <h2 class="rise" id="aboutH">Storytelling, with an <strong>uncompromising standard.</strong></h2>
-        <div class="fmt-row rise" style="--d:.1s" aria-hidden="true">
-          <span class="fmt"><svg class="ico"><use href="#i-digital"/></svg></span>
-          <span class="fmt"><svg class="ico"><use href="#i-film"/></svg></span>
-          <span class="fmt"><svg class="ico"><use href="#i-tv"/></svg></span>
-          <span class="fmt"><svg class="ico"><use href="#i-audio"/></svg></span>
-          <span class="fmt"><svg class="ico"><use href="#i-book"/></svg></span>
-        </div>
+        <div class="fmt-wrap rise" style="--d:.1s"><p class="fmt-lead">Jump to a format</p><nav class="fmt-row" aria-label="Formats"><a class="fmt" href="#services" data-svc="0"><svg class="ico" aria-hidden="true"><use href="#i-digital"/></svg><span>Digital media</span></a><a class="fmt" href="#services" data-svc="1"><svg class="ico" aria-hidden="true"><use href="#i-film"/></svg><span>Film</span></a><a class="fmt" href="#services" data-svc="2"><svg class="ico" aria-hidden="true"><use href="#i-tv"/></svg><span>Television</span></a><a class="fmt" href="#services" data-svc="3"><svg class="ico" aria-hidden="true"><use href="#i-audio"/></svg><span>Audio</span></a><a class="fmt" href="#services" data-svc="4"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg><span>Publishing</span></a></nav></div>
       </div>
       <div class="cards">
         <article class="card c-vision rise"><div><h4>Vision</h4><h3>To create original work that shapes culture, inspires ideas, and reaches global audiences.</h3></div><span class="badge"><svg class="ico"><use href="#i-eye"/></svg></span></article>
         <article class="card c-mission rise" style="--d:.1s"><div><h4>Mission</h4><h3>To redefine storytelling, driven by vision, craft, and an uncompromising standard.</h3></div><span class="badge"><svg class="ico"><use href="#i-flag"/></svg></span></article>
-        <article class="card c-about rise" style="--d:.15s"><div><h4>About</h4><h3>Dean Baker Studios is an independent production company. We develop and produce original content across digital media, film, television, audio and publishing, crafted with intention and built for global audiences.</h3>
-          <div class="pills"><span class="pill">Digital media</span><span class="pill">Film</span><span class="pill">Television</span><span class="pill">Audio</span><span class="pill">Publishing</span></div></div>
+        <article class="card c-about rise" style="--d:.15s"><div><h4>About</h4><h3>Dean Baker Studios is an independent production company. We develop and produce original content across digital media, film, television, audio and publishing, crafted with intention and built for global audiences.</h3></div>
           <span class="about-side"><span class="badge"><svg class="ico"><use href="#i-spark"/></svg></span></span></article>
       </div>
     </div>
