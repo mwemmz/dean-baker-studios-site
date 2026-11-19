@@ -43,3 +43,4 @@ CSS variables at the top of `index.html` (`--black`, `--foam`, `--latte`, `--mer
 
 - Services scroll-driven again (pinned on desktop, plain 1:1 scrolling, step counter; tap-to-open on mobile).
 - Equal scroll length per service; softer colour balance (About back to a light blush background, Merlot on cards/accents).
+- Service images are now real photos (img/*.webp, generated in Google Flow), replacing the illustration placeholders.
