@@ -271,8 +271,13 @@ footer li>a,.foot-loc{display:inline-flex;align-items:center;gap:10px}
 footer a:hover span{text-decoration:underline;text-underline-offset:4px}
 footer a:hover{text-decoration:none}
 footer .ico{width:18px;height:18px;color:var(--latte)}
-.foot-share{all:unset;cursor:pointer;color:var(--on-dark-2);transition:color .2s}
-.foot-share:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
+.foot-share{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:10px;color:var(--on-dark-2);transition:color .2s}
+.foot-share:hover{color:#fff}.foot-share:hover span{text-decoration:underline;text-underline-offset:4px}
+.follow{display:flex;gap:12px;margin-top:18px}
+.follow a{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:rgba(246,243,232,.1);box-shadow:inset 0 0 0 1px rgba(246,243,232,.2);transition:background .25s,color .25s}
+.follow a:hover{background:var(--foam);color:var(--merlot);text-decoration:none}
+.follow .ico{width:20px;height:20px;color:inherit}
+footer .follow a:hover .ico{color:var(--merlot)}
 .foot-share:focus-visible{outline:3px solid var(--latte);outline-offset:3px}
 .foot-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:24px;border-top:1px solid rgba(246,243,232,.16);color:var(--on-dark-2);font-size:var(--fs-l)}
 .foot-bar .brand{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
@@ -351,6 +356,9 @@ footer .ico{width:18px;height:18px;color:var(--latte)}
   <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 005 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
   <symbol id="i-share" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8l7.6-3.6M8.2 13.2l7.6 3.6"/></symbol>
   <symbol id="i-wa" viewBox="0 0 24 24"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 19z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1.2-1.4-2-1-.9.7a4 4 0 0 1-1.8-1.8l.7-.9-1-2z"/></symbol>
+  <symbol id="i-in" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10.5V16M8 7.8v.1M12 16v-5.5M12 12.5c0-1.2 1-2 2.2-2s2 .8 2 2.2V16"/></symbol>
+  <symbol id="i-ig" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.3 6.7v.1"/></symbol>
+  <symbol id="i-yt" viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.5l5 2.5-5 2.5z"/></symbol>
   <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
 </svg>
 
@@ -454,7 +462,7 @@ footer .ico{width:18px;height:18px;color:var(--latte)}
       <div class="contact-grid">
         <div>
           <h2 class="rise" id="contactH">Let&rsquo;s talk about <strong>what we can make together.</strong></h2>
-          <p class="contact-intro rise" style="--d:.08s">For partnerships, funding and collaboration enquiries, reach us whichever way is easiest and we will reply personally.</p>
+          <p class="contact-intro rise" style="--d:.08s">For partnerships and creative collaborations, get in touch.</p>
           <div class="contact-actions rise" style="--d:.16s">
             <button class="ctl ghost" type="button" data-share><svg class="ico"><use href="#i-share"/></svg>Share this page</button>
           </div>
@@ -466,8 +474,7 @@ footer .ico{width:18px;height:18px;color:var(--latte)}
             <a class="cpill" id="waBox" href="#" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg><span>WhatsApp</span></a>
             <a class="cpill" id="callBox" href="#"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg><span>Call</span></a>
           </div>
-          <p class="loc rise" style="--d:.18s"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Based in Lusaka, Zambia</p>
-        </div>
+                  </div>
       </div>
     </div>
   </section>
@@ -481,7 +488,10 @@ footer .ico{width:18px;height:18px;color:var(--latte)}
       <ul><li><a href="#services" data-svc="0">Digital media</a></li><li><a href="#services" data-svc="1">Film</a></li><li><a href="#services" data-svc="2">Television</a></li><li><a href="#services" data-svc="3">Audio</a></li><li><a href="#services" data-svc="4">Publishing</a></li></ul></div>
     <div><h4>Contact</h4>
       <!-- Social links go here once the client supplies them. -->
-      <ul><li class="foot-contact"><a id="footMail" href="#"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg><span id="footMailTxt"></span></a></li><li class="foot-contact"><a id="footWa" href="#" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg><span id="footWaTxt"></span></a></li><li class="foot-contact"><a id="footCall" href="#"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg><span id="footCallTxt"></span></a></li><li class="foot-loc"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Lusaka, Zambia</li><li><button class="foot-share" type="button" data-share>Share this page</button></li></ul></div>
+      <ul><li class="foot-contact"><a id="footMail" href="#"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg><span id="footMailTxt"></span></a></li><li class="foot-contact"><a id="footWa" href="#" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg><span id="footWaTxt"></span></a></li><li class="foot-contact"><a id="footCall" href="#"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg><span id="footCallTxt"></span></a></li><li class="foot-loc"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Lusaka, Zambia</li><li><button class="foot-share" type="button" data-share><svg class="ico" aria-hidden="true"><use href="#i-share"/></svg><span>Share this page</span></button></li></ul>
+      <!-- Replace the # links with the studio's LinkedIn, Instagram and YouTube pages. -->
+      <h4 style="margin-top:28px;margin-bottom:0">Follow us</h4>
+      <div class="follow"><a href="#" aria-label="LinkedIn"><svg class="ico"><use href="#i-in"/></svg></a><a href="#" aria-label="Instagram"><svg class="ico"><use href="#i-ig"/></svg></a><a href="#" aria-label="YouTube"><svg class="ico"><use href="#i-yt"/></svg></a></div></div>
   </div>
   <div class="wrap foot-bar">
     <div class="brand"><img src="assets/logo-white.svg" alt="Dean Baker Studios" width="109" height="30"><span>&copy; 2026 Dean Baker Studios. All rights reserved.</span></div>
@@ -496,8 +506,8 @@ footer .ico{width:18px;height:18px;color:var(--latte)}
 (function () {
   /* PLACEHOLDERS: confirm with the studio, then change these three lines. */
   var EMAIL = 'hello@deanbakerstudios.com';
-  var PHONE = '+260 000 000 000';
-  var WHATSAPP = '260000000000';       // digits only, with country code
+  var PHONE = '+260 773906561';
+  var WHATSAPP = '260773906561';       // digits only, with country code
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
 
@@ -563,7 +573,7 @@ footer .ico{width:18px;height:18px;color:var(--latte)}
 
   /* How we work: the card at the reading position stays highlighted and the section colours follow it */
   var steps = [].slice.call(document.querySelectorAll('.step')), appr = document.getElementById('approach');
-  var tones = [['#ECE4D3', '#340D1A'], ['#E7DAC9', '#4B2340'], ['#E3D3C5', '#5E1F36'], ['#DFD0C2', '#3B1B2E']];
+  var tones = [['#ECE4D3', '#340D1A'], ['#E7DAC9', '#340D1A'], ['#E3D3C5', '#340D1A'], ['#DFD0C2', '#340D1A']];
   var stepCur = -1;
   function setStep(i) {
     if (i === stepCur) return; stepCur = i;
