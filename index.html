@@ -47,7 +47,7 @@ p{font-size:var(--fs-b)}
 .ctl{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:44px;padding:0 20px;border-radius:999px;
   font-size:var(--fs-l);font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:pointer;
   color:var(--merlot);background:rgba(52,13,26,.09);border:0;box-shadow:inset 0 0 0 2px transparent;
-  transition:background .25s var(--ease),color .25s var(--ease),box-shadow .25s var(--ease),transform .25s var(--ease)}
+  transition:background .4s var(--ease),color .4s var(--ease),box-shadow .4s var(--ease),transform .4s var(--ease)}
 .ctl.solid{background:var(--merlot);color:var(--foam)}
 .ctl.light{background:var(--foam);color:var(--merlot)}
 .ctl.ghost{background:rgba(246,243,232,.12);color:var(--foam)}
@@ -254,7 +254,7 @@ p{font-size:var(--fs-b)}
 .contact-intro{margin:20px 0 28px;max-width:46ch;color:var(--on-dark-2)}
 .contact-actions{display:flex;flex-wrap:wrap;gap:12px}
 .cpills{display:grid;grid-template-columns:1fr 1fr;gap:clamp(8px,1vw,12px)}
-.cpill{flex:1 1 0;min-width:0;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 clamp(10px,1.4vw,20px);border-radius:999px;
+.cpill{flex:1 1 0;min-width:0;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 clamp(10px,1.4vw,20px);border-radius:999px;border:0;
   background:rgba(246,243,232,.12);box-shadow:inset 0 0 0 1px rgba(246,243,232,.28);color:var(--on-dark);text-decoration:none;font-size:var(--fs-b);font-weight:600;white-space:nowrap;
   transition:background .25s var(--ease),color .25s var(--ease),box-shadow .25s var(--ease),transform .25s var(--ease)}
 .cpill .ico{width:22px;height:22px}
@@ -559,6 +559,7 @@ footer .follow a:hover .ico{color:var(--merlot)}
   items.forEach(function (it, k) { it.querySelector('button').addEventListener('click', function () { if (pinned()) window.scrollTo({ top: stopY(k), behavior: sbeh }); else show(k); }); });
   document.querySelectorAll('[data-svc]').forEach(function (a) { a.addEventListener('click', function (e) { var k = +a.getAttribute('data-svc'); if (pinned()) { e.preventDefault(); window.scrollTo({ top: stopY(k), behavior: sbeh }); } else show(k); }); });
   function svcScroll() {
+    if (navScrolling) return;
     if (!pinned()) return;
     var span = Math.max(1, track.offsetHeight - window.innerHeight), p = clamp(-track.getBoundingClientRect().top / span, 0, 1);
     var i = Math.min(items.length - 1, Math.floor(p * items.length)); show(i);
@@ -660,6 +661,7 @@ footer .follow a:hover .ico{color:var(--merlot)}
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(buildRoad);
 
   function focusScroll() {
+    if (navScrolling) return;
     if (!fine.matches) {
       setCard(nearest(cards, 0.05, 0.95));
       var st = nearest(steps, 0.1, 0.9); if (st) setStep(steps.indexOf(st));
@@ -671,7 +673,7 @@ footer .follow a:hover .ico{color:var(--merlot)}
   var nav = document.getElementById('nav'), prog = document.getElementById('prog');
   var spies = [].slice.call(document.querySelectorAll('[data-spy]'));
   var secs = ['about', 'services', 'approach', 'contact'].map(function (id) { return document.getElementById(id); });
-  var spyCur = '', tick = false;
+  var spyCur = '', tick = false, navScrolling = false;
   function onScroll() {
     tick = false;
     if (nav) nav.classList.toggle('scrolled', window.scrollY > 50);
@@ -682,7 +684,8 @@ footer .follow a:hover .ico{color:var(--merlot)}
     var max = document.documentElement.scrollHeight - vh;
     prog.style.transform = 'scaleX(' + clamp(y / Math.max(1, max), 0, 1) + ')';
   }
-  window.addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  document.querySelectorAll('.nav-links a').forEach(function (a) { a.addEventListener('click', function () { navScrolling = true; setTimeout(function () { navScrolling = false; }, 1200); }); });
+window.addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(onScroll); } }, { passive: true });
   window.addEventListener('resize', onScroll);
   onScroll();
 
