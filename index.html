@@ -72,6 +72,7 @@ p{font-size:var(--fs-b)}
 .logo img{height:30px;width:auto}
 .nav-ico{display:none}
 .nav-txt{display:inline}
+.mobile-top{display:none}
 .nav-links{display:flex;gap:6px}
 .prog{position:absolute;left:0;bottom:0;height:3px;width:100%;background:var(--merlot);transform-origin:0 50%;transform:scaleX(0)}
 
@@ -308,6 +309,8 @@ footer .follow a:hover .ico{color:var(--merlot)}
   .nav-ico{display:block;width:20px;height:20px}
   .nav-txt{display:none}
   body{padding-bottom:calc(var(--nav) + 24px)}
+  .mobile-top{display:flex;position:fixed;top:0;left:var(--pad);right:var(--pad);height:var(--nav);align-items:center;z-index:49}
+  .mobile-top img{height:26px;width:auto}
   .logo img{height:26px}
   .nav-links .ctl{padding:0 12px;min-height:40px;letter-spacing:.06em}
   .hero img{object-position:34% 50%}
@@ -353,6 +356,7 @@ footer .follow a:hover .ico{color:var(--merlot)}
 </head>
 <body>
 <a class="skip" href="#about">Skip to content</a>
+<header class="mobile-top" aria-label="Brand"><a href="#top" aria-label="Dean Baker Studios, home"><img src="assets/logo-black.svg" alt="Dean Baker Studios" width="130" height="34"></a></header>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
