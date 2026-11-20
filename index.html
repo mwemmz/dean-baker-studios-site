@@ -70,6 +70,7 @@ p{font-size:var(--fs-b)}
   box-shadow:0 6px 30px rgba(52,13,26,.14),inset 0 0 0 1px rgba(52,13,26,.06);overflow:hidden;
   transition:top .45s var(--ease),left .45s var(--ease),right .45s var(--ease),border-radius .45s var(--ease),background .45s var(--ease),box-shadow .45s var(--ease),backdrop-filter .45s var(--ease),padding .45s var(--ease)}
 .logo img{height:30px;width:auto}
+.hero-logo{display:none}
 .nav-ico{display:none}
 .nav-txt{display:inline}
 .mobile-top{display:none}
@@ -309,10 +310,8 @@ footer .follow a:hover .ico{color:var(--merlot)}
   .nav-ico{display:block;width:20px;height:20px}
   .nav-txt{display:none}
   body{padding-bottom:calc(var(--nav) + 24px)}
-  .mobile-top{display:block;position:absolute;top:12px;left:var(--pad);z-index:49}
-  .mobile-top img{height:20px;width:auto}
-  .nav .logo{display:none}
   .nav{justify-content:center}
+  .hero-logo{display:block;height:24px;width:auto;margin-bottom:12px}
   .logo img{height:26px}
   .nav-links .ctl{padding:0 12px;min-height:40px;letter-spacing:.06em}
   .hero img{object-fit:cover;object-position:30% 45%;transform:none!important;animation:none!important}
@@ -358,7 +357,6 @@ footer .follow a:hover .ico{color:var(--merlot)}
 </head>
 <body>
 <a class="skip" href="#about">Skip to content</a>
-<header class="mobile-top" aria-label="Brand"><a href="#top" aria-label="Dean Baker Studios, home"><img src="assets/logo-black.svg" alt="Dean Baker Studios" width="130" height="34"></a></header>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
@@ -397,6 +395,7 @@ footer .follow a:hover .ico{color:var(--merlot)}
   <section class="hero" aria-label="Introduction">
     <img src="img/hero.webp" alt="A bright loft studio with a vintage film camera, microphone, laptop and screenplay on an oak table." fetchpriority="high" width="1920" height="1080">
     <div class="hero-copy">
+      <img class="hero-logo" src="assets/logo-black.svg" alt="Dean Baker Studios" width="130" height="34">
       <h1>Original work that <strong>shapes culture.</strong></h1>
     </div>
   </section>
