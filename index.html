@@ -79,12 +79,12 @@ p{font-size:var(--fs-b)}
 
 /* Hero: one still, no scroll effect */
 .hero{position:relative;height:100vh;height:100svh;min-height:520px;overflow:hidden;background:#E9E5DB}
-.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% 0%}
+.hero .hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% 0%}
 .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(246,243,232,.72) 0%,rgba(246,243,232,.35) 36%,rgba(246,243,232,0) 62%),linear-gradient(180deg,rgba(246,243,232,.55) 0%,rgba(246,243,232,0) 30%)}
 .hero-copy{position:absolute;z-index:2;left:var(--pad);top:calc(var(--nav) + clamp(14px,5vh,64px));max-width:min(620px,86vw)}
 .hero-copy h1 strong{color:var(--merlot)}
 .hero-copy p{margin-top:14px;font-size:var(--fs-t);font-weight:500;color:var(--ink)}
-.js .hero img{animation:settle 2.2s var(--ease) both}
+.js .hero .hero-bg{animation:settle 2.2s var(--ease) both}
 @keyframes settle{from{transform:scale(1.06)}to{transform:scale(1)}}
 .js .hero-copy>*{animation:up .9s var(--ease) both}
 .js .hero-copy p{animation-delay:.18s}
@@ -311,12 +311,12 @@ footer .follow a:hover .ico{color:var(--merlot)}
   .nav-txt{display:none}
   body{padding-bottom:calc(var(--nav) + 24px)}
   .nav{justify-content:center}
-  .hero-logo{display:block;height:24px;width:auto;margin-top:0;margin-bottom:18px;position:relative;z-index:2}
   .logo img{height:26px}
   .nav-links .ctl{padding:0 12px;min-height:40px;letter-spacing:.06em}
-  .hero img{object-fit:cover;object-position:30% 45%;transform:none!important;animation:none!important}
+  .hero .hero-bg{object-fit:cover;object-position:30% 45%;transform:none!important;animation:none!important}
   .hero::after{background:linear-gradient(180deg,rgba(246,243,232,.86) 0%,rgba(246,243,232,.6) 34%,rgba(246,243,232,.12) 62%,rgba(246,243,232,0) 80%)}
-  .hero-copy{top:calc(var(--nav) + 12px);max-width:calc(100vw - 2 * var(--pad))}
+  .hero-logo{display:block;position:absolute;top:16px;left:var(--pad);z-index:3;height:24px;width:auto}
+  .hero-copy{top:auto;bottom:22%;max-width:calc(100vw - 2 * var(--pad))}
   .about-head,.head{flex-direction:column;align-items:flex-start}
   .cards{grid-template-columns:1fr}
   .steps{grid-template-columns:minmax(0,1fr)}
@@ -393,9 +393,9 @@ footer .follow a:hover .ico{color:var(--merlot)}
 
 <main id="top">
   <section class="hero" aria-label="Introduction">
-    <img src="img/hero.webp" alt="A bright loft studio with a vintage film camera, microphone, laptop and screenplay on an oak table." fetchpriority="high" width="1920" height="1080">
+    <img class="hero-bg" src="img/hero.webp" alt="A bright loft studio with a vintage film camera, microphone, laptop and screenplay on an oak table." fetchpriority="high" width="1920" height="1080">
+    <img class="hero-logo" src="assets/logo-black.svg" alt="Dean Baker Studios" width="130" height="34">
     <div class="hero-copy">
-      <img class="hero-logo" src="assets/logo-black.svg" alt="Dean Baker Studios" width="130" height="34">
       <h1>Original work that <strong>shapes culture.</strong></h1>
     </div>
   </section>
